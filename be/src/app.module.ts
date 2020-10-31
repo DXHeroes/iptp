@@ -9,6 +9,7 @@ import { AccountsModule } from './accounts/accounts.module';
 import { BankModule } from './bank/bank.module';
 import { FlowsModule } from './flows/flows.module';
 import { ActionsModule } from './actions/actions.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ActionsModule } from './actions/actions.module';
     BankModule,
     FlowsModule,
     ActionsModule,
+    TransactionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
