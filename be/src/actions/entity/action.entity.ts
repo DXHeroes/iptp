@@ -17,7 +17,7 @@ export class Action extends BasicEntity {
   tag: string;
 
   @Column()
-  notification: string;
+  notification: boolean;
 
   @Column()
   priority: number;
