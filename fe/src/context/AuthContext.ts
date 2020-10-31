@@ -4,11 +4,13 @@ import { AuthState } from '../interfaces/AuthState';
 export const AuthContext = createContext<{
   auth: {
     token: string;
+    accountOrder: number;
   };
-  setAuth: any;
+  setAuth: any
 }>({
   auth: {
     token: '',
+    accountOrder: 0
   },
-  setAuth: (authState: AuthState) => {},
+  setAuth: (authState: AuthState) => authState
 });

@@ -5,6 +5,9 @@ import { ConfigKeys } from './config/configKeys.enum';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors({
+    origin: "*"
+  });
   await app.listen(configService.get(ConfigKeys.PORT, '3000'));
 }
 bootstrap();
