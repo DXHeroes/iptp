@@ -1,20 +1,38 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../../auth/entity/user.entity';
+import { Transaction } from '../../transactions/entity/transaction.entity';
 import { BasicEntity } from '../../utils/basicEntity';
 
 @Entity()
 export class Account extends BasicEntity {
   @Column()
-  balance: number;
+  balance: string;
 
   @Column()
-  code: number;
+  acNumber: string;
+
+  @Index()
+  @Column()
+  acId: string;
 
   @Column()
-  acNumber: number;
+  name: string;
 
   @Column()
   currency: string;
+
+  @OneToMany(
+    () => Transaction,
+    (transaction: Transaction) => transaction.account,
+  )
+  transactions: Account[];
 
   @ManyToOne(
     () => User,
