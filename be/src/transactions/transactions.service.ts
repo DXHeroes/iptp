@@ -20,4 +20,37 @@ export class TransactionsService {
   ): Promise<Transaction[]> {
     return this.transactionRepository.createTransactions(account, transactions);
   }
+
+  findById(id: string) {
+    return this.transactionRepository.findOne(id);
+  }
+
+  async createSingleTransaction(
+    account: Account,
+    transaction: {
+      id: string;
+      amount: { value: string; currency: string };
+      date: string;
+      fromName: string;
+      toName: string;
+      vs: string;
+    },
+  ): Promise<Transaction> {
+    return this.transactionRepository.createSingleTransaction(
+      account,
+      transaction,
+    );
+  }
+
+  async labelTransaction(
+    account: Account,
+    transaction: Transaction,
+    tags: string[]
+  ): Promise<Transaction> {
+    return this.transactionRepository.labelTransaction(
+      account,
+      transaction,
+      tags
+    );
+  }
 }

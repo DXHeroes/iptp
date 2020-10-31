@@ -14,10 +14,10 @@ export class Transaction extends BasicEntity {
   currency: string;
 
   @Column()
-  date: string;
+  date: Date;
 
-  @Column()
-  tsAmount: string;
+  @Column({ type: 'float' })
+  tsAmount: number;
 
   @Column({ nullable: true })
   tsTo: string;
