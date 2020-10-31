@@ -20,4 +20,8 @@ export class TransactionsService {
   ): Promise<Transaction[]> {
     return this.transactionRepository.createTransactions(account, transactions);
   }
+
+  findById(id: string) {
+    return this.transactionRepository.findOne(id)
+  }
 }

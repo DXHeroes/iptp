@@ -23,7 +23,7 @@ export class Flow extends BasicEntity {
   to: string;
 
   @Column({ nullable: true})
-  amount: string;
+  amount: number;
 
   @Column({
     type: 'enum',
