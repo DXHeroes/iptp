@@ -1,0 +1,60 @@
+{
+  "name": "iptp-fe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development yarn watch:css && PORT=3001 react-scripts start",
+    "start": "cross-env NODE_ENV=production && react-scripts start",
+    "build": "yarn build:css && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:css": "postcss src/assets/styles/tailwind.css -o src/assets/styles/main.css",
+    "watch:css": "postcss src/assets/styles/tailwind.css -o src/assets/styles/main.css"
+  },
+  "dependencies": {
+    "@reach/router": "^1.3.4",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "axios": "^0.21.0",
+    "postcss-import": "12.0.1",
+    "postcss-nested": "4.2.1",
+    "postcss-preset-env": "6.7.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0",
+    "typescript": "^4.0.3",
+    "web-vitals": "^0.2.4"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "postcss-cli": "7.1.1",
+    "prettier": "^2.1.2",
+    "tailwindcss": "^1.9.6",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^5.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
