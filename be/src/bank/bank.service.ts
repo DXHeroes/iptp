@@ -24,7 +24,6 @@ export class BankService {
     this.httpsAgent = new https.Agent({
       rejectUnauthorized: false, // (NOTE: this will disable client verification)
       cert: fs.readFileSync("./public.pem"),
-    //   // key: fs.readFileSync("./public.pem"),
       key: fs.readFileSync("./private.key"),
     })
   }
@@ -39,9 +38,10 @@ export class BankService {
   async listAccounts(): Promise<{ id: string, currency: string, servicer: { bankCode: string, countryCode: string, bic: string}, name: string, product: string }[]> {
     const token = (await this.getAccessToken()).access_token
     const data = (await axios.get(this.accountsApiUrl + "/my/accounts", { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })).data
-
-    return data.accounts.map(async d => {
-      return {
+  
+    let result = [];
+    for (const d of data.accounts) {
+      result.push({
         id: d.id,
         currency: d.currency,
         servicer: {
@@ -53,8 +53,10 @@ export class BankService {
         identification: d.identification.other,
         balance: await this.getAccountBalance(d.id),
         product: d.productI18N, 
-      }
-    })
+      })
+    }
+
+    return result
 
     // TODO: return our real db accounts instead of api list cause of data inconsistency after new transaction
   }
@@ -64,6 +66,7 @@ export class BankService {
     const { data } = await axios.get(this.accountsApiUrl + `/my/accounts/${accId}/transactions`, { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
     
     return data.transactions.map(t => {
+      console.log(t.entryDetails.transactionDetails)
       return {
         id: t.entryReference,
         amount: {
@@ -71,8 +74,9 @@ export class BankService {
           currency: t.amount.currency
         },
         date: t.valueDate.date,
-        debtorName: t.entryDetails.transactionDetails.relatedParties.name,
-        creditorName: t.entryDetails.transactionDetails.relatedParties.name,
+        fromName: t.entryDetails.transactionDetails.relatedParties.name,
+        toName: t.entryDetails.transactionDetails.relatedParties.name,
+        vs: t.entryDetails.transactionDetails.remittanceInformation?.structured?.creditorReferenceInformation?.reference?.find(r => r.match(/VS:/))?.replace("VS:", ""),
       }
     });
 
