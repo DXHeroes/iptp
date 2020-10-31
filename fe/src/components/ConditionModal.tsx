@@ -94,7 +94,7 @@ const ConditionModal: React.FC<Props> = ({value, onChange, close}) => {
         <input required type="text" placeholder="Category..." value={data.value} onChange={handleInput} className="bg-greylight p-20 rounded-lg w-full mt-20"/>
       )}
       {data.condition === ConditionTypes.DATE && (
-        <input required type="text" placeholder="Date..." value={data.value} onChange={handleInput} className="bg-greylight p-20 rounded-lg w-full mt-20"/>
+        <input required type="date" placeholder="Date..." value={data.value} onChange={handleInput} className="bg-greylight p-20 rounded-lg w-full mt-20"/>
       )}
       <div className="flex justify-center mt-20">
         <Button submit>Add</Button>

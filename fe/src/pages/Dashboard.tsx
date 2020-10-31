@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import TransactionList from '../components/TransactionList';
 import { AuthContext } from '../context/AuthContext';
 import { DashboardState } from '../interfaces/AuthState';
-import { fetchAccounts, fetchTransactions } from '../utils/api';
+import { fetchAccounts, fetchFlows, fetchTransactions } from '../utils/api';
 
 interface Props {}
 
@@ -36,6 +36,7 @@ const Dashboard: React.FC<Props> = () => {
   const {auth: {accountOrder}, setAuth} = useContext(AuthContext)
 
   const [data, setData] = useState<DashboardState>({
+    flows: [],
     accounts: [],
     transactions: [],
   })
@@ -44,7 +45,8 @@ const Dashboard: React.FC<Props> = () => {
     const fetchData = async () => {
       const accountRes = await fetchAccounts()
       const transactionRes = await fetchTransactions(accountRes.data[accountOrder].id)
-      setData(state => ({...state, accounts: accountRes.data, transactions: transactionRes.data}))
+      const flowRes = await fetchFlows();
+      setData(state => ({...state, flows: flowRes.data, accounts: accountRes.data, transactions: transactionRes.data}))
     }
     fetchData()
   }, [])

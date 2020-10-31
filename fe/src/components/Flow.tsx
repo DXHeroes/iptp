@@ -5,6 +5,7 @@ import ConditionModal from './ConditionModal';
 import ActionsModal from './ActionsModal';
 import useClickOutside from '../utils/useClickOutside';
 import { FlowState } from '../interfaces/FlowState';
+import { ActionState } from '../interfaces/ActionState';
 
 interface Props {
 }
@@ -21,18 +22,6 @@ const AmountConditionToConditionTypes = {
   "MORE_THAN_OR_EQUAL": "more or equal than",
   "EQUAL": "equal than" 
 }
-
-const actions = [
-  {
-    id: 1,
-    name: 'TRANS',
-    value: '',
-  },
-  {
-    id: 2,
-    name: 'SET LABEL',
-  },
-];
 
 const Flow: React.FC<Props> = () => {
   const [modal, setModal] = useState<ModalType | null>(null);
@@ -51,7 +40,37 @@ const Flow: React.FC<Props> = () => {
 
   const handleCloseModal = () => setModal(null);
 
-  useClickOutside(ref, () => handleCloseModal)
+  useClickOutside(ref, handleCloseModal)
+
+  const getActionName = (action: ActionState) => {
+    let text;
+
+    if (action.notification) {
+      text = "Enable notification"  
+    }
+    else if (action.tag) {
+      text = "Create tag"  
+    }
+    else if (action.tsTo) {
+      text = "Send transaction"  
+    }
+    return text
+  }
+
+  const getActionValue = (action: ActionState) => {
+    let value;
+
+    if (action.notification) {
+      value = action.notification ? "enabled" : "disabled"
+    }
+    else if (action.tag) {
+      value = action.tag  
+    }
+    else if (action.tsTo) {
+      value = "Send " + (action.tsAmount ? `${action.tsAmount} CZK` : "") + (action.tsTo ? ` to ${action.tsAmount}` : "") + (action.tsVS ? ` with VS number ${action.tsVS}` : "")
+    }
+    return value
+  }
 
   const handleDrop = () => {}
 
@@ -93,14 +112,14 @@ const Flow: React.FC<Props> = () => {
               dropPlaceholder
               onDrop={handleDrop}
             >
-              {actions.map((action) => (
-                <Draggable key={action.id}>
+              {flowState.actions?.map((action: any, index: number) => (
+                <Draggable key={index}>
                   <li
                     className="flex flex-col border-2 border-grey-300 rounded-lg my-10 font-heading overflow-hidden"
                   >
-                    <div className="bg-greylight px-20 py-10">IF: <span className="text-green">{action.name}</span></div>
+                    <div className="bg-greylight px-20 py-10"><span className="text-green">{getActionName(action)}</span></div>
                     <div className="bg-white px-20 py-20 flex">
-                      <div>Neco</div>
+                      <div>{getActionValue(action)}</div>
                       <div className="ml-auto bg-greylight rounded-full mr-20 handler cursor-move">
                         <Icon className="w-30 h-30 fill-current text-grey" />
                       </div>

@@ -4,6 +4,7 @@ export interface AuthState {
 }
 
 export interface DashboardState {
+  flows: any;
   accounts: any;
   transactions: any;
 }

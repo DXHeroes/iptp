@@ -8,7 +8,7 @@ export interface FlowState {
   amountCond: AmountCondition | string;
   category: string;
   priority: number;
-  actions: ActionState[] | [];
+  actions?: ActionState[];
 }
 
 export enum AmountCondition {
