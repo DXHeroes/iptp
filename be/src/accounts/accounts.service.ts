@@ -37,7 +37,7 @@ export class AccountsService {
   ): Promise<{ updatedAccount: Account; reducedAmount: number }> {
     const currentBalance = parseFloat(account.balance);
     const reducedAmount =
-      parseFloat(transactionAmount) * parseFloat(percentageAmount);
+      (parseFloat(transactionAmount) * parseFloat(percentageAmount)) / 100;
     const newBalance = currentBalance - reducedAmount;
     const acc = await this.accountRepository.findOne({
       where: { acId: account.acId },
