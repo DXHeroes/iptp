@@ -4,8 +4,10 @@ import { Container, Draggable } from "react-smooth-dnd";
 import ConditionModal from './ConditionModal';
 import ActionsModal from './ActionsModal';
 import useClickOutside from '../utils/useClickOutside';
-import { FlowState } from '../interfaces/FlowState';
+import { AmountCondition, FlowState } from '../interfaces/FlowState';
 import { ActionState } from '../interfaces/ActionState';
+import Button from './Button';
+import { createFlow } from '../utils/api';
 
 interface Props {
 }
@@ -30,9 +32,10 @@ const Flow: React.FC<Props> = () => {
     from: "",
     to: "",
     amount: "",
-    amountCond: "",
+    amountCond: AmountCondition.EQUAL,
     category: "",
     priority: 0,
+    date: "",
     actions: [],
   })
 
@@ -72,11 +75,28 @@ const Flow: React.FC<Props> = () => {
     return value
   }
 
-  const handleDrop = () => {}
+  const handleInput = ({target}: React.ChangeEvent<HTMLInputElement>) => setFlowState(state => ({...state, title: target.value}))
+
+  const handleDrop = ({removedIndex, addedIndex}: any) => {
+    if (removedIndex === addedIndex) return;
+    //@ts-ignore
+    const actions = [...flowState.actions];
+    const picked = actions.splice(removedIndex, 1)[0];
+    actions.splice(addedIndex, 0, picked);
+    setFlowState(state => ({...state, actions}))
+  }
+
+  const handleCreateFlow = async () => {
+    //@ts-ignore;
+    flowState.actions = flowState.actions?.map((a, index) => ({...a, priority: index}))
+    const res = await createFlow(flowState);
+    console.log(res)
+  }
 
   return(
     <>
       <div>
+        <input className="p-20 bg-greylight w-full mb-40" placeholder="Title..." value={flowState.title} onChange={handleInput}/>
         <div className="bg-greylight p-20 rounded-lg mb-40">
         <div className="flex items-center">
             <h2 className="py-10 text-20 text-grey uppercase font-heading">
@@ -86,7 +106,7 @@ const Flow: React.FC<Props> = () => {
           </div>
           <ul>
               {/* @ts-ignore */}
-              {Object.keys(flowState).filter(i => (i !== "amountCond" && i !== "actions" && flowState[i])).map((condition) => (
+              {Object.keys(flowState).filter(i => (i !== "title" && i !== "amountCond" && i !== "actions" && flowState[i])).map((condition) => (
                 <li
                   key={condition}
                   className="handler border-2 flex flex-col border-grey-300 rounded-lg my-10 font-heading overflow-hidden"
@@ -129,6 +149,9 @@ const Flow: React.FC<Props> = () => {
               ))}
             </Container>
           </ul>
+        </div>
+        <div className="mt-20 flex justify-center" onClick={handleCreateFlow}>
+            <Button>Create flow</Button>
         </div>
       </div>
       {modal && (

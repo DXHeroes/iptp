@@ -8,6 +8,7 @@ export interface FlowState {
   amountCond: AmountCondition | string;
   category: string;
   priority: number;
+  date: string;
   actions?: ActionState[];
 }
 
