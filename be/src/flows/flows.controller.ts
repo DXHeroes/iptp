@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Action } from '../actions/entity/action.entity';
 import { FlowsService } from './flows.service';
 import { AmountCondition } from './interface/amountCondition.enum';
@@ -28,6 +28,11 @@ export class FlowsController {
       to,
       actions
     })
+  }
+
+  @Get("/")
+  list() {
+    return this.service.list()
   }
 
 }

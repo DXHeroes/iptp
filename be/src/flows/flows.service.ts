@@ -20,6 +20,10 @@ export class FlowsService {
     return this.flowRepository.createFlow(params);
   }
 
+  list() {
+    return this.flowRepository.find();
+  }
+
   async matchTransaction(transactionId: string) {
     const transaction = await this.transactionsService.findById(transactionId);
 
