@@ -16,6 +16,7 @@ const AccountList: React.FC<Props> = ({data, order, onChange}) => {
             <li key={account.id} className={`cursor-pointer bg-greylight p-20 rounded-lg mr-20 border-2 border-transparent ${order === index ? "border-black" : "opacity-75"}`} onClick={() => onChange(index)}>
               <div className="uppercase font-heading">{account.product}</div>
               <div className="text-13 text-grey">{account.name}</div>
+              <div className="text-13 text-grey">{`${account.balance.amount.value} ${account.balance.amount.currency}`}</div>
             </li>
           ))}
         </ul>
