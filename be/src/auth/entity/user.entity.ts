@@ -1,4 +1,5 @@
-import { Column, Entity, Unique } from 'typeorm';
+import { Column, Entity, OneToMany, Unique } from 'typeorm';
+import { Account } from '../../accounts/entity/account.entity';
 import { BasicEntity } from '../../utils/basicEntity';
 
 @Entity()
@@ -18,4 +19,10 @@ export class User extends BasicEntity {
 
   @Column()
   pictureUrl: string;
+
+  @OneToMany(
+    () => Account,
+    (account: Account) => account.user,
+  )
+  accounts: Account[];
 }
