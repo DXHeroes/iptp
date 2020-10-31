@@ -59,7 +59,7 @@ export class FlowsService implements OnApplicationBootstrap {
 
     for (const f of flows) {
       if (f.date && transaction.date != f.date) break;
-      if (f.from && transaction.tsFrom != f.from) break;
+      // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll: 
       if (f.to && transaction.tsTo != f.to) break;
       if (
         f.amount &&

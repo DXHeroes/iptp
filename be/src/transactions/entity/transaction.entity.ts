@@ -23,7 +23,7 @@ export class Transaction extends BasicEntity {
   tsTo: string;
 
   @Column({ nullable: true })
-  tsFrom: string;
+  tsFrom?: string;
 
   @Column({ nullable: true })
   tsVS: string;

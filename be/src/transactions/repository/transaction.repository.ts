@@ -11,7 +11,7 @@ export class TransactionRepository extends Repository<Transaction> {
       amount: { value: string; currency: string };
       date: string;
       fromName: string;
-      toName: string;
+      toName?: string;
       vs: string;
     }[],
   ): Promise<Transaction[]> {
@@ -25,8 +25,8 @@ export class TransactionRepository extends Repository<Transaction> {
       t.tsId = transaction.id;
       t.tsVS = transaction.vs;
       t.date = new Date(transaction.date);
-      t.tsTo = transaction.fromName;
-      t.tsFrom = transaction.toName;
+      t.tsTo = transaction.toName;
+      t.tsFrom = transaction.fromName;
       newTransactions.push(t);
     }
     return this.save(newTransactions);
