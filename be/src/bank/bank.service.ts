@@ -24,7 +24,6 @@ export class BankService {
     this.httpsAgent = new https.Agent({
       rejectUnauthorized: false, // (NOTE: this will disable client verification)
       cert: fs.readFileSync("./public.pem"),
-    //   // key: fs.readFileSync("./public.pem"),
       key: fs.readFileSync("./private.key"),
     })
   }
@@ -39,9 +38,10 @@ export class BankService {
   async listAccounts(): Promise<{ id: string, currency: string, servicer: { bankCode: string, countryCode: string, bic: string}, name: string, product: string }[]> {
     const token = (await this.getAccessToken()).access_token
     const data = (await axios.get(this.accountsApiUrl + "/my/accounts", { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })).data
-
-    return data.accounts.map(async d => {
-      return {
+  
+    let result = [];
+    for (const d of data.accounts) {
+      result.push({
         id: d.id,
         currency: d.currency,
         servicer: {
@@ -53,8 +53,27 @@ export class BankService {
         identification: d.identification.other,
         balance: await this.getAccountBalance(d.id),
         product: d.productI18N, 
-      }
-    })
+      })
+    }
+
+    return result
+
+
+    // return await data.accounts.forEach(async d => {
+    //   return {
+    //     id: d.id,
+    //     currency: d.currency,
+    //     servicer: {
+    //       bankCode: d.bankCode,
+    //       countryCode: d.countryCode,
+    //       bic: d.bic
+    //     },
+    //     name: d.nameI18N,
+    //     identification: d.identification.other,
+    //     balance: await this.getAccountBalance(d.id),
+    //     product: d.productI18N, 
+    //   }
+    // })
 
     // TODO: return our real db accounts instead of api list cause of data inconsistency after new transaction
   }
@@ -71,8 +90,8 @@ export class BankService {
           currency: t.amount.currency
         },
         date: t.valueDate.date,
-        debtorName: t.entryDetails.transactionDetails.relatedParties.name,
-        creditorName: t.entryDetails.transactionDetails.relatedParties.name,
+        fromName: t.entryDetails.transactionDetails.relatedParties.name,
+        toName: t.entryDetails.transactionDetails.relatedParties.name,
       }
     });
 
