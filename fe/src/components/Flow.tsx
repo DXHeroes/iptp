@@ -70,8 +70,8 @@ const Flow: React.FC<Props> = () => (
             key={action.id}
             className="bg-blue flex items-center text-white rounded-lg my-10 px-20 py-10 font-heading"
           >
-            <div>
-              <Icon className="w-20 h-20" />
+            <div className="bg-greylight rounded-full mr-20">
+              <Icon className="w-30 h-30 fill-current text-grey" />
             </div>
             <div>{action.name}</div>
           </li>
