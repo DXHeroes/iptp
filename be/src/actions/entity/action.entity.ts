@@ -4,22 +4,22 @@ import { BasicEntity } from '../../utils/basicEntity';
 
 @Entity()
 export class Action extends BasicEntity {
-  @Column()
+  @Column({ nullable: true})
   tsTo: string;
 
-  @Column()
+  @Column({ nullable: true})
   tsAmount: string;
 
-  @Column()
+  @Column({ nullable: true})
   tsVS: string;
 
-  @Column()
+  @Column({ nullable: true})
   tag: string;
 
-  @Column()
+  @Column({ nullable: true})
   notification: boolean;
 
-  @Column()
+  @Column({ nullable: true})
   priority: number;
 
   @ManyToOne(

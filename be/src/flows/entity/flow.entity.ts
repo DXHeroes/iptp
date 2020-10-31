@@ -16,29 +16,30 @@ export class Flow extends BasicEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true})
   from: string;
 
-  @Column()
+  @Column({ nullable: true})
   to: string;
 
-  @Column()
+  @Column({ nullable: true})
   amount: string;
 
   @Column({
     type: 'enum',
     enum: AmountCondition,
     default: AmountCondition.EQUAL,
+    nullable: true
   })
   amountCond: AmountCondition;
 
-  @Column()
+  @Column({ nullable: true})
   date: Date;
 
-  @Column()
+  @Column({ nullable: true})
   category: string;
 
-  @Column()
+  @Column({ nullable: true})
   priority: number;
 
   @OneToMany(
@@ -56,6 +57,6 @@ export class Flow extends BasicEntity {
   user: User;
 
   @Index()
-  @Column()
+  @Column({ nullable: true})
   userId: string;
 }
