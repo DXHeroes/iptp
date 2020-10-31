@@ -73,8 +73,8 @@ export class BankService {
           currency: t.amount.currency
         },
         date: t.valueDate.date,
-        fromName: t.entryDetails.transactionDetails.relatedParties.name,
-        toName: t.entryDetails.transactionDetails.relatedParties.name,
+        fromName: t.entryDetails.transactionDetails.relatedParties.debtor?.name,
+        toName: t.entryDetails.transactionDetails.relatedParties.creditor?.name,
         vs: t.entryDetails.transactionDetails.remittanceInformation?.structured?.creditorReferenceInformation?.reference?.find(r => r.match(/VS:/))?.replace("VS:", ""),
       }
     });
