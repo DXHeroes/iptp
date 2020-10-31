@@ -34,7 +34,7 @@ const TransactionList: React.FC<Props> = ({ data }) => (
             <Icon className="fill-current text-white w-20 h-20" />
           </div>
           <div className="ml-20 leading-none">
-            <div className="text-20">{transaction.name}</div>
+            <div className="text-20">SEX</div>
             <div className="text-grey mt-5 text-14">{transaction.date}</div>
             <div className="flex mt-10">
               <div className="text-13 font-bold text-blue py-5 mr-10 rounded-full">

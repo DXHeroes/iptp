@@ -6,6 +6,7 @@ import { Routes } from './routes';
 const App: React.FC = () => {
   const [auth, setAuth] = useState<AuthState>({
     token: '',
+    accountOrder: 0,
   });
 
   const token = localStorage.getItem('token');
