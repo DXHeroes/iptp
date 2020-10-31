@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ReactComponent as Icon } from '../assets/icons/drag.svg';
 import { Container, Draggable } from "react-smooth-dnd";
 import ConditionModal from './ConditionModal';
 import ActionsModal from './ActionsModal';
+import useClickOutside from '../utils/useClickOutside';
 
 interface Props {
 }
@@ -37,6 +38,9 @@ const conditions = [
 
 const Flow: React.FC<Props> = () => {
   const [modal, setModal] = useState<ModalType | null>(null);
+  const ref = useRef<any>(null)
+
+  useClickOutside(ref, () => setModal(null))
 
   const handleDrop = () => {}
 
@@ -48,7 +52,7 @@ const Flow: React.FC<Props> = () => {
             Conditions
           </h2>
           <ul>
-              <button className="text-blue font-heading" onClick={() => setModal(ModalType.ACTIONS)}>+ Add Filter</button>
+              <button className="text-blue font-heading" onClick={() => setModal(ModalType.CONDITIONS)}>+ Add Filter</button>
               {conditions.map((condition) => (
                 <li
                   key={condition.id}
@@ -88,9 +92,11 @@ const Flow: React.FC<Props> = () => {
       </div>
       {modal && (
         <div className="fixed bg-black bg-opacity-75 z-10 top-0 left-0 w-full h-full flex">
-          {modal === ModalType.CONDITIONS ? 
-            <ConditionModal/> : <ActionsModal/>
-          }  
+          <div ref={ref} className="bg-white max-w-30rem w-full m-auto py-40 px-20 rounded-lg">
+            {modal === ModalType.CONDITIONS ? 
+              <ConditionModal/> : <ActionsModal/>
+            }  
+          </div>
         </div>
       )}
   </>
