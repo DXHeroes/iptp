@@ -16,7 +16,7 @@ export class FlowsController {
       amount: string;
       amountCond: AmountCondition;
       category: string;
-      date: string;
+      date: Date;
       from: string;
       title: string;
       to: string;

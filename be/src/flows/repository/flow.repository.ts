@@ -11,7 +11,7 @@ export class FlowRepository extends Repository<Flow> {
     f.amount = Number(params.amount);
     f.amountCond = params.amountCond;
     f.category = params.category;
-    f.date = new Date(params.date);
+    f.date = params.date ? params.date : new Date();
     f.from = params.from;
     f.title = params.title;
     f.to = params.to;
@@ -36,7 +36,7 @@ export type CreateFlowParams = {
   amount: string;
   amountCond: AmountCondition;
   category: string;
-  date: string;
+  date: Date;
   from: string;
   title: string;
   to: string;

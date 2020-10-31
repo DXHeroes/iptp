@@ -26,7 +26,7 @@ export class FlowsService implements OnApplicationBootstrap {
         amount: '15000',
         amountCond: AmountCondition.MORE_THAN,
         category: 'INCOME',
-        date: new Date().toLocaleString(),
+        date: new Date(),
         from: 'Applifting s.r.o.',
         title: 'Monthly Income Flow',
         to: 'DX Heroes',
