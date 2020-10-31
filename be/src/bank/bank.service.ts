@@ -36,16 +36,41 @@ export class BankService {
     })).data;
   }
 
-  async listAccounts(): Promise<{ id: string }[]> {
+  async listAccounts(): Promise<{ id: string, currency: string, servicer: { bankCode: string, countryCode: string, bic: string}, name: string, product: string }[]> {
     const token = (await this.getAccessToken()).access_token
-    const { data } = await axios.get(this.accountsApiUrl + "/my/accounts", { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
-    return data;
+    const data = (await axios.get(this.accountsApiUrl + "/my/accounts", { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })).data
+
+    return data.accounts.map(d => {
+      return {
+        id: d.id,
+        currency: d.currency,
+        servicer: {
+          bankCode: d.bankCode,
+          countryCode: d.countryCode,
+          bic: d.bic
+        },
+        name: d.nameI18N,
+        product: d.productI18N, 
+      }
+    })
   }
 
-  async listTransactionsByAccountId(accId: string) {
+  async listTransactionsByAccountId(accId: string): Promise<{ id: string, amount: { value: string, currency: string}, data: string, debtorName: string, creditorName: string }[]> {
     const token = (await this.getAccessToken()).access_token
     const { data } = await axios.get(this.accountsApiUrl + `/my/accounts/${accId}/transactions`, { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
-    return data;
+    
+    return data.transactions.map(t => {
+      return {
+        id: t.entryReference,
+        amount: {
+          value: t.amount.value,
+          currency: t.amount.currency
+        },
+        date: t.valueDate.date,
+        debtorName: t.entryDetails.transactionDetails.relatedParties.name,
+        creditorName: t.entryDetails.transactionDetails.relatedParties.name,
+      }
+    });
   }
 
 
