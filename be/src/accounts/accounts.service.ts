@@ -7,6 +7,10 @@ import { AccountRepository } from './repository/account.repository';
 export class AccountsService {
   constructor(private readonly accountRepository: AccountRepository) {}
 
+  async findOne() {
+    return await this.accountRepository.findOne()
+  }
+
   async createAccounts(
     user: User,
     accounts: {

@@ -55,4 +55,22 @@ export class TransactionRepository extends Repository<Transaction> {
     t.tsFrom = transaction.toName;
     return this.save(t);
   }
+
+  async labelTransaction(
+    account: Account,
+    transaction: Transaction,
+    tags: string[]
+  ): Promise<Transaction> {
+    const t = new Transaction();
+    t.account = account;
+    t.tsAmount = Number(transaction.tsAmount);
+    t.currency = transaction.currency;
+    t.tags = tags;
+    t.tsId = transaction.id;
+    t.tsVS = transaction.tsVS;
+    t.date = new Date(transaction.date);
+    t.tsTo = transaction.tsTo;
+    t.tsFrom = transaction.tsFrom;
+    return this.save(t);
+  }
 }

@@ -41,4 +41,16 @@ export class TransactionsService {
       transaction,
     );
   }
+
+  async labelTransaction(
+    account: Account,
+    transaction: Transaction,
+    tags: string[]
+  ): Promise<Transaction> {
+    return this.transactionRepository.labelTransaction(
+      account,
+      transaction,
+      tags
+    );
+  }
 }
