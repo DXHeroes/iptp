@@ -19,8 +19,18 @@ export class ActionsService {
 
     const account = await this.accountsService.findOne();
 
+    const latestTransaction = (await this.transactionService.findAll()).sort(
+      (a: Transaction, b: Transaction) =>
+        this.getTime(a.date) - this.getTime(b.date),
+    );
+
     let transaction: Transaction;
     if (action.tsTo) {
+      const { reducedAmount } = await this.accountsService.updateBalance(
+        account,
+        action.tsAmount,
+        String(latestTransaction[0].tsAmount),
+      );
       transaction = await this.transactionService.createTransactions(account, [
         {
           id: null,
@@ -28,7 +38,7 @@ export class ActionsService {
           fromName: 'me',
           vs: null,
           amount: {
-            value: action.tsAmount,
+            value: String(reducedAmount),
             currency: 'CZK',
           },
           toName: 'My Required Payment',
@@ -60,5 +70,9 @@ export class ActionsService {
     a.notification = notification;
     a.priority = priority;
     return this.actionRepository.save(a);
+  }
+
+  private getTime(date?: Date) {
+    return date != null ? date.getTime() : 0;
   }
 }
