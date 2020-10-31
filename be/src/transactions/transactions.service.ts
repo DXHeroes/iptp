@@ -53,4 +53,8 @@ export class TransactionsService {
       tags
     );
   }
+
+  async list() {
+    return this.transactionRepository.find()
+  }
 }
