@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from './Button';
 
 interface Props {
 
@@ -18,8 +19,8 @@ const actions = [
 
 
 const ConditionModal: React.FC<Props> = () => (
-  <div className="bg-white max-w-30rem w-full m-auto py-40 px-20 rounded-lg">
-    <h3 className="mb-40 font-heading text-30">Action</h3>
+  <>
+    <h3 className="mb-40 font-heading text-30">Conditions</h3>
     <div className="bg-greylight p-20 cursor-pointer">
       <select className="w-full focus:outline-none bg-greylight">
         {actions.map(action => (
@@ -27,7 +28,10 @@ const ConditionModal: React.FC<Props> = () => (
         ))}
       </select>
     </div>
-  </div>
+    <div className="flex justify-center mt-20">
+      <Button>Add</Button>
+    </div>
+  </>
 );
 
 export default ConditionModal;
