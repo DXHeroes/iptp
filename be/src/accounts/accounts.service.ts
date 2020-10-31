@@ -46,4 +46,8 @@ export class AccountsService {
     const updatedAccount = await this.accountRepository.save(acc);
     return { updatedAccount, reducedAmount };
   }
+
+  async list() {
+    return this.accountRepository.find()
+  }
 }

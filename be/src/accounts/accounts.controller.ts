@@ -1,12 +1,14 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { BankService } from '../bank/bank.service';
 import { TransactionsService } from '../transactions/transactions.service';
+import { AccountsService } from './accounts.service';
 
 @Controller('api/accounts')
 export class AccountsController {
   constructor(
     private readonly bankService: BankService, 
-    private readonly transactionService: TransactionsService
+    private readonly transactionService: TransactionsService,
+    private readonly accountsService: AccountsService,
   ) {}
 
   @Get('/')
@@ -19,7 +21,19 @@ export class AccountsController {
       product: string;
     }[]
   > {
-    return this.bankService.listAccounts();
+    // TODO: enable for real world of corporate people
+    // return this.bankService.listAccounts();
+    const accs = await this.accountsService.list()
+
+    return accs.map(a => {
+      return {
+        id: a.id,
+        currency: a.currency,
+        name: a.name,
+        product: a.acNumber,
+        servicer: { bankCode: "0300", countryCode: "CZ", bic: "0000" }
+      }
+    })
   }
 
   @Get('/:id/transactions')
@@ -36,7 +50,7 @@ export class AccountsController {
   > {
     // TODO: enable for real world
     // return this.bankService.listTransactionsByAccountId(id);
-    const ts = await this.transactionService.list()
+    const ts = await this.accountsService.list()
     
     return ts.map(t => { 
       return {
