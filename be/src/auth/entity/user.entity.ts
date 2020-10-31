@@ -14,5 +14,8 @@ export class User extends BasicEntity {
   email: string;
 
   @Column()
+  phone: string;
+
+  @Column()
   pictureUrl: string;
 }
