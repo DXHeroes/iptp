@@ -175,6 +175,7 @@ export class BankService {
         httpsAgent: this.httpsAgent,
       },
     );
+    console.log(data);
   }
 
   private async getAccountBalance(id: string) {

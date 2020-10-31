@@ -22,6 +22,23 @@ export class TransactionsService {
   }
 
   findById(id: string) {
-    return this.transactionRepository.findOne(id)
+    return this.transactionRepository.findOne(id);
+  }
+
+  async createSingleTransaction(
+    account: Account,
+    transaction: {
+      id: string;
+      amount: { value: string; currency: string };
+      date: string;
+      fromName: string;
+      toName: string;
+      vs: string;
+    },
+  ): Promise<Transaction> {
+    return this.transactionRepository.createSingleTransaction(
+      account,
+      transaction,
+    );
   }
 }

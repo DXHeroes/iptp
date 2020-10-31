@@ -19,16 +19,40 @@ export class TransactionRepository extends Repository<Transaction> {
     for (const transaction of transactions) {
       const t = new Transaction();
       t.account = account;
-      t.tsAmount = transaction.amount.value;
+      t.tsAmount = Number(transaction.amount.value);
       t.currency = transaction.amount.currency;
       t.tags = [];
       t.tsId = transaction.id;
       t.tsVS = transaction.vs;
-      t.date = transaction.date;
+      t.date = new Date(transaction.date);
       t.tsTo = transaction.fromName;
       t.tsFrom = transaction.toName;
       newTransactions.push(t);
     }
     return this.save(newTransactions);
+  }
+
+  async createSingleTransaction(
+    account: Account,
+    transaction: {
+      id: string;
+      amount: { value: string; currency: string };
+      date: string;
+      fromName: string;
+      toName: string;
+      vs: string;
+    },
+  ): Promise<Transaction> {
+    const t = new Transaction();
+    t.account = account;
+    t.tsAmount = Number(transaction.amount.value);
+    t.currency = transaction.amount.currency;
+    t.tags = [];
+    t.tsId = transaction.id;
+    t.tsVS = transaction.vs;
+    t.date = new Date(transaction.date);
+    t.tsTo = transaction.fromName;
+    t.tsFrom = transaction.toName;
+    return this.save(t);
   }
 }

@@ -5,22 +5,28 @@ import { AmountCondition } from '../interface/amountCondition.enum';
 
 @EntityRepository(Flow)
 export class FlowRepository extends Repository<Flow> {
-
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async createFlow(params: CreateFlowParams) {
-    console.log(params)
-    await this.insert({ ...params })
+    const f = new Flow();
+    f.amount = Number(params.amount);
+    f.amountCond = params.amountCond;
+    f.category = params.category;
+    f.date = new Date(params.date);
+    f.from = params.from;
+    f.title = params.title;
+    f.to = params.to;
+    f.actions = params.actions;
+    await this.insert(f);
   }
-
 }
-
 
 export type CreateFlowParams = {
-  amount: string; 
-  amountCond: AmountCondition; 
-  category: string; 
-  date: string; 
-  from: string; 
-  title: string; 
-  to: string; 
+  amount: string;
+  amountCond: AmountCondition;
+  category: string;
+  date: string;
+  from: string;
+  title: string;
+  to: string;
   actions: Action[];
-}
+};

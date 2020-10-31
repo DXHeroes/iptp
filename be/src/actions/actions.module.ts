@@ -6,5 +6,6 @@ import { ActionRepository } from './repository/action.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([ActionRepository])],
   providers: [ActionsService],
+  exports: [ActionsService],
 })
 export class ActionsModule {}
