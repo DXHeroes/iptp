@@ -1,10 +1,23 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
+import { ConfigService } from './config/config.service';
+import { AuthModule } from './auth/auth.module';
+import { AccountsModule } from './accounts/accounts.module';
+import { FlowsModule } from './flows/flows.module';
+import { ActionsModule } from './actions/actions.module';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [
+    ConfigModule,
+    TypeOrmModule.forRootAsync({ useClass: ConfigService }),
+    AuthModule,
+    AccountsModule,
+    FlowsModule,
+    ActionsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
