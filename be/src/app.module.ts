@@ -6,6 +6,7 @@ import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { BankModule } from './bank/bank.module';
 import { FlowsModule } from './flows/flows.module';
 import { ActionsModule } from './actions/actions.module';
 
@@ -15,6 +16,7 @@ import { ActionsModule } from './actions/actions.module';
     TypeOrmModule.forRootAsync({ useClass: ConfigService }),
     AuthModule,
     AccountsModule,
+    BankModule,
     FlowsModule,
     ActionsModule,
   ],

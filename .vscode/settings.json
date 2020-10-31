@@ -1,0 +1,28 @@
+{
+  "editor.formatOnSave": false,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false,
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false,
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": false,
+  },
+  "eslint.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.packageManager": "yarn",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.workingDirectories": [
+   "data-consumer",
+   "data-provider"
+  ],
+  "debug.node.autoAttach": "off"
+}
