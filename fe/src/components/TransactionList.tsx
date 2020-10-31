@@ -6,7 +6,7 @@ interface Props {
   data: any;
 }
 
-const labels = [
+const tags = [
   {
     name: 'flow1',
     id: 1,
@@ -37,13 +37,10 @@ const TransactionList: React.FC<Props> = ({ data }) => (
             <div className="text-20">{transaction.fromName || "Unknown"}</div>
             <div className="text-grey mt-5 text-14">{transaction.date}</div>
             <div className="flex mt-10">
-              <div className="text-13 font-bold text-blue py-5 mr-10 rounded-full">
-                <Link to={`/transaction/${transaction.id}`}>Edit flow</Link>
-              </div>
-              {labels.map((flow) => (
-                <Link key={flow.id} to={`/flow/${flow.id}`}>
-                  <div className="text-13 font-bold bg-blue text-white py-5 px-10 mr-10 rounded-full">
-                    {flow.name}
+              {tags.map((tag) => (
+                <Link key={tag.id} to={`/flow/${tag.id}`}>
+                  <div className="text-13 font-medium text-grey bg-greylight py-5 px-10 mr-10 rounded-full">
+                    {tag.name}
                   </div>
                 </Link>
               ))}

@@ -11,12 +11,24 @@ export class FlowRepository extends Repository<Flow> {
     f.amount = Number(params.amount);
     f.amountCond = params.amountCond;
     f.category = params.category;
-    f.date = new Date(params.date);
+    f.date = params.date ? params.date : new Date();
     f.from = params.from;
     f.title = params.title;
     f.to = params.to;
     f.actions = params.actions;
-    await this.insert(f);
+    return await this.insert(f);
+  }
+
+  async createSingleFlow(params: CreateFlowParams): Promise<Flow> {
+    const f = new Flow();
+    f.amount = Number(params.amount);
+    f.amountCond = params.amountCond;
+    f.category = params.category;
+    f.date = new Date(params.date);
+    f.from = params.from;
+    f.title = params.title;
+    f.to = params.to;
+    return this.save(f);
   }
 }
 
@@ -24,9 +36,9 @@ export type CreateFlowParams = {
   amount: string;
   amountCond: AmountCondition;
   category: string;
-  date: string;
+  date: Date;
   from: string;
   title: string;
   to: string;
-  actions: Action[];
+  actions?: Action[];
 };

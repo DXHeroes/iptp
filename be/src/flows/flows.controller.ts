@@ -1,23 +1,38 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { InsertResult } from 'typeorm';
 import { Action } from '../actions/entity/action.entity';
+import { Flow } from './entity/flow.entity';
 import { FlowsService } from './flows.service';
 import { AmountCondition } from './interface/amountCondition.enum';
 
 @Controller('api/flows')
 export class FlowsController {
-  constructor(private readonly service: FlowsService){}
+  constructor(private readonly service: FlowsService) {}
 
-  @Post("/create")
+  @Post('/create')
   createFlow(
-    @Body("amount") amount: string,
-    @Body("amountCond") amountCond: AmountCondition,
-    @Body("category") category: string,
-    @Body("date") date: string,
-    @Body("from") from: string,
-    @Body("title") title: string,
-    @Body("to") to: string,
-    @Body("actions") actions: Action[],
-  ) {
+    @Body()
+    dto: {
+      amount: string;
+      amountCond: AmountCondition;
+      category: string;
+      date: Date;
+      from: string;
+      title: string;
+      to: string;
+      actions: Action[];
+    },
+  ): Promise<InsertResult> {
+    const {
+      amount,
+      amountCond,
+      category,
+      date,
+      from,
+      title,
+      to,
+      actions,
+    } = dto;
     return this.service.create({
       amount,
       amountCond,
@@ -26,13 +41,12 @@ export class FlowsController {
       from,
       title,
       to,
-      actions
-    })
+      actions,
+    });
   }
 
-  @Get("/")
-  list() {
-    return this.service.list()
+  @Get('/')
+  list(): Promise<Flow[]> {
+    return this.service.list();
   }
-
 }
