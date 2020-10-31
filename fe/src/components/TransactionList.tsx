@@ -42,7 +42,7 @@ const TransactionList: React.FC<Props> = ({ data }) => (
               </div>
               {labels.map((flow) => (
                 <Link key={flow.id} to={`/flow/${flow.id}`}>
-                  <div className="text-13 font-bold bg-pink py-5 px-10 mr-10 rounded-full">
+                  <div className="text-13 font-bold bg-blue text-white py-5 px-10 mr-10 rounded-full">
                     {flow.name}
                   </div>
                 </Link>

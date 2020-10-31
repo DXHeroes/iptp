@@ -82,6 +82,7 @@ module.exports = {
       transparent: 'transparent',
       white: '#fff',
       grey: '#5c595f',
+      "grey-300": "#e2e8f0",
       greylight: '#f7f7f7',
       black: '#000',
       black2: '#100e1c',

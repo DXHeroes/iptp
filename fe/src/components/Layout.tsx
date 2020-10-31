@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from '@reach/router';
 import { AuthContext } from '../context/AuthContext';
+import {ReactComponent as Logo} from "../assets/icons/logo.svg"
 
 interface Props {}
 
@@ -21,7 +22,8 @@ const Layout: React.FC<Props> = ({ children }) => {
       <div className="flex flex-col mx-auto w-full max-w-80rem bg-white">
         <header>
           <nav className="px-40 py-20 flex items-start">
-            <Link to="/" className="text-22 font-logoHeading">
+            <Link to="/" className="text-22 font-logoHeading text-blue flex items-center">
+              <Logo className="w-30 h-30 mr-10 fill-current"/>
               IfPayThenPay
             </Link>
             {token && (

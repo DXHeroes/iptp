@@ -9,6 +9,9 @@ import { configService } from '../config/config.service';
 import { ConfigKeys } from '../config/configKeys.enum';
 import { LinkedInStrategy } from './strategy/linkedin.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import { AccountsModule } from '../accounts/accounts.module';
+import { TransactionsModule } from '../transactions/transactions.module';
+import { BankModule } from '../bank/bank.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { JwtStrategy } from './strategy/jwt.strategy';
     JwtModule.register({
       secret: configService.get(ConfigKeys.JWT_SECRET, 'ultra-hard-to-guess'),
     }),
+    AccountsModule,
+    TransactionsModule,
+    BankModule,
   ],
   providers: [AuthService, LinkedInStrategy, JwtStrategy],
   controllers: [AuthController],
