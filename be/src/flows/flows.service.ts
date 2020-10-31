@@ -1,30 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { TransactionsService } from '../transactions/transactions.service';
 import { AmountCondition } from './interface/amountCondition.enum';
-//import assertNever from 'assert-never';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as _ from 'lodash';
 import { CreateFlowParams, FlowRepository } from './repository/flow.repository';
 import { Flow } from './entity/flow.entity';
 import { ActionsService } from '../actions/actions.service';
+import { Transaction } from '../transactions/entity/transaction.entity';
+import { InsertResult } from 'typeorm';
 
 @Injectable()
-export class FlowsService {
+export class FlowsService implements OnApplicationBootstrap {
   constructor(
     private readonly flowRepository: FlowRepository,
     private readonly transactionsService: TransactionsService,
     private readonly actionsService: ActionsService,
   ) {}
 
-  create(params: CreateFlowParams) {
+  async onApplicationBootstrap(): Promise<void> {
+    const existingFlow = await this.flowRepository.findOne({
+      where: { amount: '15000', category: 'INCOME', from: 'Applifting s.r.o.' },
+    });
+    if (!existingFlow) {
+      const flow = await this.flowRepository.createSingleFlow({
+        amount: '15000',
+        amountCond: AmountCondition.MORE_THAN,
+        category: 'INCOME',
+        date: new Date().toLocaleString(),
+        from: 'Applifting s.r.o.',
+        title: 'Monthly Income Flow',
+        to: 'DX Heroes',
+      });
+      await this.actionsService.createAction(
+        flow,
+        'Prokop Simek',
+        '10000',
+        '420123123',
+        'DEBT',
+        false,
+        0,
+      );
+    }
+  }
+
+  create(params: CreateFlowParams): Promise<InsertResult> {
     return this.flowRepository.createFlow(params);
   }
 
-  list() {
+  list(): Promise<Flow[]> {
     return this.flowRepository.find();
   }
 
-  async matchTransaction(transactionId: string) {
+  async matchTransaction(transactionId: string): Promise<void> {
     const transaction = await this.transactionsService.findById(transactionId);
 
     const flows = await this.flowRepository.find();
@@ -56,8 +83,10 @@ export class FlowsService {
     return;
   }
 
-  private isCategory(transaction) {
-    return true; // :troll:
+  private isCategory(transaction: Transaction) {
+    if (transaction) {
+      return true; // :troll:
+    }
   }
 
   private fulfillsCondition(
