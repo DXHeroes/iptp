@@ -57,6 +57,7 @@ export class FlowsService implements OnApplicationBootstrap {
     const flows = await this.flowRepository.find();
     const applicableFlows: Flow[] = [];
 
+    // FIXME: I'd never oterate in loop in real world - iˇd use sql query => :shame: :shame: :shame:
     for (const f of flows) {
       if (f.date && transaction.date != f.date) break;
       // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll: 
