@@ -1,10 +1,21 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { Action } from '../../actions/entity/action.entity';
 import { User } from '../../auth/entity/user.entity';
 import { BasicEntity } from '../../utils/basicEntity';
 import { AmountCondition } from '../interface/amountCondition.enum';
 
 @Entity()
 export class Flow extends BasicEntity {
+  @Column()
+  title: string;
+
   @Column()
   from: string;
 
@@ -29,6 +40,12 @@ export class Flow extends BasicEntity {
 
   @Column()
   priority: number;
+
+  @OneToMany(
+    () => Action,
+    (action: Action) => action.flow,
+  )
+  actions: Action[];
 
   @ManyToOne(
     () => User,

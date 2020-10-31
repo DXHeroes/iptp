@@ -7,6 +7,7 @@ import { ConfigService } from './config/config.service';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { FlowsModule } from './flows/flows.module';
+import { ActionsModule } from './actions/actions.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { FlowsModule } from './flows/flows.module';
     AuthModule,
     AccountsModule,
     FlowsModule,
+    ActionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
