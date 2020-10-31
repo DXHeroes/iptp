@@ -21,7 +21,7 @@ export class TransactionsService {
     return this.transactionRepository.createTransactions(account, transactions);
   }
 
-  findById(id: string) {
+  findById(id: string): Promise<Transaction> {
     return this.transactionRepository.findOne(id);
   }
 
@@ -45,12 +45,12 @@ export class TransactionsService {
   async labelTransaction(
     account: Account,
     transaction: Transaction,
-    tags: string[]
+    tags: string[],
   ): Promise<Transaction> {
     return this.transactionRepository.labelTransaction(
       account,
       transaction,
-      tags
+      tags,
     );
   }
 }
