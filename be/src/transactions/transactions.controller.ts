@@ -1,6 +1,7 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AccountsService } from '../accounts/accounts.service';
 import { BankService } from '../bank/bank.service';
+import { FlowsService } from '../flows/flows.service';
 import { TransactionsService } from './transactions.service';
 
 @Controller('/api/transactions')
@@ -9,6 +10,7 @@ export class TransactionsController {
     private readonly bankService: BankService,
     private readonly transactionService: TransactionsService,
     private readonly accountsService: AccountsService,
+    private readonly flowService: FlowsService,
   ) {}
 
   @Post('/')
@@ -32,7 +34,7 @@ export class TransactionsController {
       debtorIban,
       creditorIban,
     } = dto;
-    await this.bankService.createPayment({
+    const data = await this.bankService.createPayment({
       paymentIdentification: {
         endToEndIdentification,
         instructionIdentification,
@@ -42,11 +44,17 @@ export class TransactionsController {
       creditorIban,
     });
     const accounts = await this.accountsService.getAccounts();
-    // const transaction = await this.transactionService.createSingleTransaction(
-    //   accounts.pop(),
-    //   {
-    //     id:
-    //   }
-    // );
+    const transaction = await this.transactionService.createSingleTransaction(
+      accounts[0],
+      {
+        id: data.paymentIdentification.instructionIdentification,
+        amount: { value: String(amountValue), currency: amountCurrency },
+        date: String(new Date().toLocaleDateString()),
+        fromName: accounts[0].name,
+        toName: accounts[1].name,
+        vs: data.signInfo.signId,
+      },
+    );
+    await this.flowService.matchTransaction(transaction.id);
   }
 }

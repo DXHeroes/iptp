@@ -146,7 +146,7 @@ export class BankService {
     amount: { value: number; currency: string };
     debtorIban: string;
     creditorIban: string;
-  }): Promise<void> {
+  }): Promise<any> {
     const token = (await this.getAccessToken()).access_token;
     const { data } = await axios.post(
       this.paymentsApiUrl + `/my/payments`,
@@ -175,7 +175,7 @@ export class BankService {
         httpsAgent: this.httpsAgent,
       },
     );
-    console.log(data);
+    return data;
   }
 
   private async getAccountBalance(id: string) {

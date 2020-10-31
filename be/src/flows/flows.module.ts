@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FlowsService } from './flows.service';
 import { FlowRepository } from './repository/flow.repository';
@@ -9,10 +9,11 @@ import { ActionsModule } from '../actions/actions.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([FlowRepository]),
-    TransactionsModule,
+    forwardRef(() => TransactionsModule),
     ActionsModule,
   ],
   providers: [FlowsService],
   controllers: [FlowsController],
+  exports: [FlowsService],
 })
 export class FlowsModule {}

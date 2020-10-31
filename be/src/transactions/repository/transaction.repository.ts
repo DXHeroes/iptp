@@ -19,7 +19,7 @@ export class TransactionRepository extends Repository<Transaction> {
     for (const transaction of transactions) {
       const t = new Transaction();
       t.account = account;
-      t.tsAmount = Number(transaction.amount.value);
+      t.tsAmount = parseFloat(transaction.amount.value);
       t.currency = transaction.amount.currency;
       t.tags = [];
       t.tsId = transaction.id;

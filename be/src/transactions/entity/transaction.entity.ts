@@ -16,7 +16,7 @@ export class Transaction extends BasicEntity {
   @Column()
   date: Date;
 
-  @Column()
+  @Column({ type: 'float' })
   tsAmount: number;
 
   @Column({ nullable: true })
