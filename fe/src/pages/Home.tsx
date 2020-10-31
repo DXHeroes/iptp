@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from '@reach/router';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
 
@@ -11,7 +10,9 @@ const Home: React.FC<Props> = () => {
       <div className="flex h-full">
         <div className="m-auto">
           <Button>
-            <Link to="/dashboard">Login with BANK ID</Link>
+            <a href="http://localhost:3000/api/auth/linkedin">
+              Login with BANK ID
+            </a>
           </Button>
         </div>
       </div>

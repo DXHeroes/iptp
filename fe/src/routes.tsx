@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import CreateFlow from './pages/CreateFlow';
 import Transaction from './pages/Transaction';
+import AuthRedirect from './pages/AuthRedirect';
 
 type RouterProps = {
   component: React.FC;
@@ -20,11 +21,6 @@ const ProtectedRoute: React.FC<RouterProps> = ({
   if (allowed) {
     return <Component {...props} />;
   } else {
-    // // if your visiting a party site from an invitation and your not logged in, save a redirect url to localstorage
-    // if (props.path === '/party') {
-    //   localStorage.removeItem('redirect_url');
-    //   localStorage.setItem('redirect_url', `/party${props.location.search}`);
-    // }
     return <Redirect to="/" noThrow />;
   }
 };
@@ -37,12 +33,6 @@ const PublicRoute: React.FC<RouterProps> = ({
   if (allowed) {
     return <Component {...props} />;
   } else {
-    // if (props.path === '/auth') {
-    //   // redirect to saved redirect_url after login
-    //   const redirectUrl = localStorage.getItem('redirect_url');
-    //   localStorage.removeItem('redirect_url');
-    //   return <Redirect to={redirectUrl ? redirectUrl : '/rooms'} noThrow />;
-    // }
     return <Redirect to="/dashboard" noThrow />;
   }
 };
@@ -57,20 +47,21 @@ export const Routes: React.FC<Props> = (props) => {
   return (
     <Router>
       <PublicRoute path="/" allowed={!logged} component={Home} />
+      <PublicRoute path="/auth" allowed={!logged} component={AuthRedirect} />
       <ProtectedRoute
         path="/dashboard"
-        allowed={!logged}
+        allowed={logged}
         component={Dashboard}
       />
-      <ProtectedRoute path="/flow" allowed={!logged} component={CreateFlow} />
+      <ProtectedRoute path="/flow" allowed={logged} component={CreateFlow} />
       <ProtectedRoute
         path="/create/flow"
-        allowed={!logged}
+        allowed={logged}
         component={CreateFlow}
       />
       <ProtectedRoute
         path="/transaction"
-        allowed={!logged}
+        allowed={logged}
         component={Transaction}
       />
     </Router>
