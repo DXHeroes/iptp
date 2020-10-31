@@ -40,27 +40,27 @@ const Dashboard: React.FC<Props> = () => {
     transactions: [],
   })
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const accountRes = await fetchAccounts()
-      const transactionRes = await fetchTransactions(accountRes.data[accountOrder].id)
-      setData(state => ({...state, accounts: accountRes.data, transactions: transactionRes.data}))
-    }
-    fetchData()
-  }, [])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const accountRes = await fetchAccounts()
+  //     const transactionRes = await fetchTransactions(accountRes.data[accountOrder].id)
+  //     setData(state => ({...state, accounts: accountRes.data, transactions: transactionRes.data}))
+  //   }
+  //   fetchData()
+  // }, [])
 
-  const handleAccountOrder = async (newAccountOrder: number) => {
-    const transactionRes = await fetchTransactions(data.accounts[newAccountOrder].id)
-    setData(state => ({...state, transactions: transactionRes.data}))
-    setAuth((state: any) => ({...state, accountOrder: newAccountOrder}))
-  }
+  // const handleAccountOrder = async (newAccountOrder: number) => {
+  //   const transactionRes = await fetchTransactions(data.accounts[newAccountOrder].id)
+  //   setData(state => ({...state, transactions: transactionRes.data}))
+  //   setAuth((state: any) => ({...state, accountOrder: newAccountOrder}))
+  // }
 
   return (
     <Layout>
       <h1 className="mb-80 text-40 font-heading">Dashboard</h1>
       <FlowList data={flows} />
-      <AccountList data={data.accounts} order={accountOrder} onChange={handleAccountOrder}/>
-      <TransactionList data={data.transactions} />
+      {/* <AccountList data={data.accounts} order={accountOrder} onChange={handleAccountOrder}/> */}
+      {/* <TransactionList data={data.transactions} /> */}
     </Layout>
   );
 };

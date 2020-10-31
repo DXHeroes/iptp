@@ -1,7 +1,11 @@
 import React from 'react';
 import { ReactComponent as Icon } from '../assets/icons/drag.svg';
+import { Container, Draggable } from "react-smooth-dnd";
 
-interface Props {}
+
+interface Props {
+  handleDrop: (e: any) => void;
+}
 
 const actions = [
   {
@@ -15,7 +19,7 @@ const actions = [
   },
 ];
 
-const Flow: React.FC<Props> = () => (
+const Flow: React.FC<Props> = ({handleDrop}) => (
   <form>
     <div className="bg-greylight p-20 rounded-lg mb-40">
       <h2 className="py-10 text-20 text-grey uppercase font-heading">
@@ -64,18 +68,25 @@ const Flow: React.FC<Props> = () => (
         Actions
       </h2>
       <ul>
-        <li className="text-blue font-heading">+ Add action</li>
-        {actions.map((action) => (
-          <li
-            key={action.id}
-            className="bg-blue flex items-center text-white rounded-lg my-10 px-20 py-10 font-heading"
-          >
-            <div className="bg-greylight rounded-full mr-20">
-              <Icon className="w-30 h-30 fill-current text-grey" />
-            </div>
-            <div>{action.name}</div>
-          </li>
-        ))}
+        <Container
+          dragHandleSelector=".handler"
+          dropPlaceholder
+          onDrop={handleDrop}
+        >
+          <li className="text-blue font-heading">+ Add action</li>
+          {actions.map((action) => (
+            <Draggable key={action.id}>
+              <li
+                className="handler bg-blue flex items-center text-white rounded-lg my-10 px-20 py-10 font-heading"
+              >
+                <div className="bg-greylight rounded-full mr-20">
+                  <Icon className="w-30 h-30 fill-current text-grey" />
+                </div>
+                <div>{action.name}</div>
+              </li>
+            </Draggable>
+          ))}
+        </Container>
       </ul>
     </div>
   </form>
