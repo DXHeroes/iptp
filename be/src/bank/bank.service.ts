@@ -40,7 +40,7 @@ export class BankService {
     const token = (await this.getAccessToken()).access_token
     const data = (await axios.get(this.accountsApiUrl + "/my/accounts", { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })).data
 
-    return data.accounts.map(d => {
+    return data.accounts.map(async d => {
       return {
         id: d.id,
         currency: d.currency,
@@ -50,6 +50,8 @@ export class BankService {
           bic: d.bic
         },
         name: d.nameI18N,
+        identification: d.identification.other,
+        balance: await this.getAccountBalance(d.id),
         product: d.productI18N, 
       }
     })
@@ -93,5 +95,16 @@ export class BankService {
       }, 
       { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent 
     })
+  }
+
+  private async getAccountBalance(id: string) {
+    const token = (await this.getAccessToken()).access_token
+    const { data } = await axios.get(this.accountsApiUrl + `/my/accounts/${id}/balance`, { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
+    return {
+      amount: {
+        value: data.balances[0].amount.value,
+        currency: data.balances[0].amount.currency,
+      }
+    }
   }
 }
