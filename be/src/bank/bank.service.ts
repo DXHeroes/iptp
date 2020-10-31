@@ -40,7 +40,7 @@ export class BankService {
     const token = (await this.getAccessToken()).access_token
     const data = (await axios.get(this.accountsApiUrl + "/my/accounts", { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })).data
 
-    return data.accounts.map(d => {
+    return data.accounts.map(async d => {
       return {
         id: d.id,
         currency: d.currency,
@@ -50,9 +50,13 @@ export class BankService {
           bic: d.bic
         },
         name: d.nameI18N,
+        identification: d.identification.other,
+        balance: await this.getAccountBalance(d.id),
         product: d.productI18N, 
       }
     })
+
+    // TODO: return our real db accounts instead of api list cause of data inconsistency after new transaction
   }
 
   async listTransactionsByAccountId(accId: string): Promise<{ id: string, amount: { value: string, currency: string}, data: string, debtorName: string, creditorName: string }[]> {
@@ -71,8 +75,36 @@ export class BankService {
         creditorName: t.entryDetails.transactionDetails.relatedParties.name,
       }
     });
+
+    // TODO: return our real db transactions instead of api list cause of data inconsistency after new transaction
   }
 
 
+  async createPayment(params: { paymentIdentification: { endToEndIdentification: string, instructionIdentification: string }, amount: { value: number, currency: string }, debtorIban: string, creditorIban: string }): Promise<void> {
+    const token = (await this.getAccessToken()).access_token
+    const { data } = await axios.post(
+      this.paymentsApiUrl + `/my/payments`, 
+      {
+        paymentIdentification: {
+          endToEndIdentification: params.paymentIdentification.endToEndIdentification,
+          instructionIdentification: params.paymentIdentification.instructionIdentification
+        },
+        amount: { instructedAmount: { value: params.amount.value, currency: params.amount.currency } },
+        debtorAccount: { identification: { iban: params.debtorIban } },
+        creditorAccount: { identification: { iban: params.creditorIban } },
+      }, 
+      { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent 
+    })
+  }
 
+  private async getAccountBalance(id: string) {
+    const token = (await this.getAccessToken()).access_token
+    const { data } = await axios.get(this.accountsApiUrl + `/my/accounts/${id}/balance`, { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
+    return {
+      amount: {
+        value: data.balances[0].amount.value,
+        currency: data.balances[0].amount.currency,
+      }
+    }
+  }
 }
