@@ -21,8 +21,8 @@
     "source.fixAll.eslint": true
   },
   "eslint.workingDirectories": [
-   "data-consumer",
-   "data-provider"
+   "be",
+   "fe"
   ],
   "debug.node.autoAttach": "off"
 }
