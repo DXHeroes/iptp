@@ -1,8 +1,26 @@
 @import 'tailwindcss/base';
-
 @import 'tailwindcss/components';
-
 @import 'tailwindcss/utilities';
+
+@font-face {
+  font-family: NexaBold;
+  font-display: swap;
+  src: url('../fonts/Nexa-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: GothamMedium;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Gotham-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: MetropolisLight;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/Metropolis-Light.otf') format('opentype');
+}
 
 html {
   scroll-behavior: smooth;

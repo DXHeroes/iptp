@@ -45,6 +45,7 @@ const sizes = {
   '15rem': '15rem',
   '20rem': '20rem',
   '30rem': '30rem',
+  '80rem': '80rem',
 };
 
 const insets = {
@@ -81,7 +82,7 @@ module.exports = {
       transparent: 'transparent',
       white: '#fff',
       grey: '#5c595f',
-      greylight: '#95949c',
+      greylight: '#f7f7f7',
       black: '#000',
       black2: '#100e1c',
       black2light: '#1d1b28',
@@ -95,7 +96,6 @@ module.exports = {
       logoHeading: ['NexaBold', 'sans-serif'],
       heading: ['GothamMedium', 'sans-serif'],
       body: ['MetropolisLight', 'sans-serif'],
-      mono: ['NexaBold', 'sans-serif'],
     },
     extend: {
       spacing: sizes,

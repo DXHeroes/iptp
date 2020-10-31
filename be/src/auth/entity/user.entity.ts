@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, Unique } from 'typeorm';
 import { Account } from '../../accounts/entity/account.entity';
+import { Flow } from '../../flows/entity/flow.entity';
 import { BasicEntity } from '../../utils/basicEntity';
 
 @Entity()
@@ -15,9 +16,6 @@ export class User extends BasicEntity {
   email: string;
 
   @Column()
-  phone: string;
-
-  @Column()
   pictureUrl: string;
 
   @OneToMany(
@@ -25,4 +23,10 @@ export class User extends BasicEntity {
     (account: Account) => account.user,
   )
   accounts: Account[];
+
+  @OneToMany(
+    () => Flow,
+    (flow: Flow) => flow.user,
+  )
+  flows: Account[];
 }
