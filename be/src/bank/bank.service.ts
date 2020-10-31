@@ -58,23 +58,6 @@ export class BankService {
 
     return result
 
-
-    // return await data.accounts.forEach(async d => {
-    //   return {
-    //     id: d.id,
-    //     currency: d.currency,
-    //     servicer: {
-    //       bankCode: d.bankCode,
-    //       countryCode: d.countryCode,
-    //       bic: d.bic
-    //     },
-    //     name: d.nameI18N,
-    //     identification: d.identification.other,
-    //     balance: await this.getAccountBalance(d.id),
-    //     product: d.productI18N, 
-    //   }
-    // })
-
     // TODO: return our real db accounts instead of api list cause of data inconsistency after new transaction
   }
 
@@ -83,6 +66,7 @@ export class BankService {
     const { data } = await axios.get(this.accountsApiUrl + `/my/accounts/${accId}/transactions`, { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
     
     return data.transactions.map(t => {
+      console.log(t.entryDetails.transactionDetails)
       return {
         id: t.entryReference,
         amount: {
@@ -92,6 +76,7 @@ export class BankService {
         date: t.valueDate.date,
         fromName: t.entryDetails.transactionDetails.relatedParties.name,
         toName: t.entryDetails.transactionDetails.relatedParties.name,
+        vs: t.entryDetails.transactionDetails.remittanceInformation?.structured?.creditorReferenceInformation?.reference?.find(r => r.match(/VS:/))?.replace("VS:", ""),
       }
     });
 
