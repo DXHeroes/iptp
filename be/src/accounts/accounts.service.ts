@@ -7,8 +7,8 @@ import { AccountRepository } from './repository/account.repository';
 export class AccountsService {
   constructor(private readonly accountRepository: AccountRepository) {}
 
-  async findOne() {
-    return await this.accountRepository.findOne()
+  async findOne(): Promise<Account> {
+    return await this.accountRepository.findOne();
   }
 
   async createAccounts(
@@ -28,5 +28,22 @@ export class AccountsService {
 
   async getAccounts(): Promise<Account[]> {
     return this.accountRepository.getAccounts();
+  }
+
+  async updateBalance(
+    account: Account,
+    percentageAmount: string,
+    transactionAmount: string,
+  ): Promise<{ updatedAccount: Account; reducedAmount: number }> {
+    const currentBalance = parseFloat(account.balance);
+    const reducedAmount =
+      parseFloat(transactionAmount) * parseFloat(percentageAmount);
+    const newBalance = currentBalance - reducedAmount;
+    const acc = await this.accountRepository.findOne({
+      where: { acId: account.acId },
+    });
+    acc.balance = String(newBalance);
+    const updatedAccount = await this.accountRepository.save(acc);
+    return { updatedAccount, reducedAmount };
   }
 }
