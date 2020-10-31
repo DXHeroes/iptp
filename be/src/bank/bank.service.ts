@@ -66,7 +66,6 @@ export class BankService {
     const { data } = await axios.get(this.accountsApiUrl + `/my/accounts/${accId}/transactions`, { headers: { "web-api-key": this.webApiKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, httpsAgent: this.httpsAgent })
     
     return data.transactions.map(t => {
-      console.log(t.entryDetails.transactionDetails)
       return {
         id: t.entryReference,
         amount: {
