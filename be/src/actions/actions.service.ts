@@ -19,30 +19,35 @@ export class ActionsService {
     const action = await this.actionRepository.findOne(id);
     const account = await this.accountsService.findOne();
 
-    if (action?.tsTo !== '' && action?.tsAmount !== '') {
+    if (action?.tsTo && action?.tsAmount) {
       const { reducedAmount } = await this.accountsService.updateBalance(
         account,
         action?.tsAmount,
         String(transaction.tsAmount),
       );
-
-      await this.transactionService.createTransactions(account, [
+      console.log('account');
+      console.log(account);
+      const newtr = await this.transactionService.createTransactions(account, [
         {
           id: uuid.v4(),
           date: new Date().toLocaleString(),
           fromName: account.name,
           vs: `VS${uuid.v4()}`,
           amount: {
-            value: String(reducedAmount),
+            value: `-${reducedAmount}`,
             currency: 'CZK',
           },
           toName: action.tsTo,
         },
       ]);
+      console.log(newtr);
     }
 
     if (action.tag) {
-      await this.transactionService.labelTransaction(account, transaction, [
+      const newTransaction = (await this.transactionService.findAll())
+        .sort((a, b) => this.getTime(a.createdAt) - this.getTime(b.createdAt))
+        .pop();
+      await this.transactionService.labelTransaction(account, newTransaction, [
         action.tag,
       ]);
     }
