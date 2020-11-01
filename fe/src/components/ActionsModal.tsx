@@ -20,7 +20,16 @@ enum AutocompleteTypes {
   TAG = 'tag',
 }
 
-const toList = ['01234/1234', '953437/999'];
+const fromList = [
+  {
+    num: '01234/1234',
+    name: 'Applifting',
+  },
+  {
+    num: '953437/9990',
+    name: 'Goldman sachs',
+  },
+];
 const tagList = ['investmen', 'family', 'entertainment', 'restaurants'];
 
 const ActionModal: React.FC<Props> = ({ value, onChange, close }) => {
@@ -132,19 +141,20 @@ const ActionModal: React.FC<Props> = ({ value, onChange, close }) => {
             />
             {autocomplete === AutocompleteTypes.TO && (
               <div className="rounded-md shadow-lg bg-white w-full absolute z-20">
-                {toList.map((a) => (
+                {fromList.map((fromItem) => (
                   <div
-                    key={a}
+                    key={fromItem.num}
                     className="p-20"
                     onClick={() => {
                       setData((state) => ({
                         ...state,
-                        value: { ...state.value, tsTo: a },
+                        value: { ...state.value, tsTo: fromItem.num },
                       }));
                       setAutocomplete(null);
                     }}
                   >
-                    {a}
+                    {fromItem.num}{' '}
+                    <span className="text-grey">({fromItem.name})</span>
                   </div>
                 ))}
               </div>
@@ -152,7 +162,7 @@ const ActionModal: React.FC<Props> = ({ value, onChange, close }) => {
           </div>
           <input
             required
-            type="number"
+            type="text"
             placeholder="Transaction amount in %..."
             value={data.value.tsAmount}
             max={100}

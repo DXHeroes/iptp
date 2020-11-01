@@ -23,7 +23,16 @@ enum ConditionTypes {
 
 const categoryList = ['restaurant', 'transportation', 'travel', 'services'];
 
-const fromList = ['01234/1234', '953437/999'];
+const fromList = [
+  {
+    num: '01234/1234',
+    name: 'Applifting',
+  },
+  {
+    num: '953437/9990',
+    name: 'Goldman sachs',
+  },
+];
 
 const ConditionModal: React.FC<Props> = ({ value, onChange, close }) => {
   const [data, setData] = useState<{
@@ -121,13 +130,14 @@ const ConditionModal: React.FC<Props> = ({ value, onChange, close }) => {
           />
           {autocomplete && (
             <div className="rounded-md shadow-lg bg-white w-full absolute z-20">
-              {fromList.map((num) => (
+              {fromList.map((fromItem) => (
                 <div
-                  key={num}
+                  key={fromItem.num}
                   className="p-20"
-                  onClick={() => setNumberFrom(num)}
+                  onClick={() => setNumberFrom(fromItem.num)}
                 >
-                  {num}
+                  {fromItem.num}{' '}
+                  <span className="text-grey">({fromItem.name})</span>
                 </div>
               ))}
             </div>
@@ -147,13 +157,14 @@ const ConditionModal: React.FC<Props> = ({ value, onChange, close }) => {
           />
           {autocomplete && (
             <div className="rounded-md shadow-lg bg-white w-full absolute z-20">
-              {fromList.map((num) => (
+              {fromList.map((fromItem) => (
                 <div
-                  key={num}
+                  key={fromItem.num}
                   className="p-20"
-                  onClick={() => setNumberFrom(num)}
+                  onClick={() => setNumberFrom(fromItem.num)}
                 >
-                  {num}
+                  {fromItem.num}{' '}
+                  <span className="text-grey">({fromItem.name})</span>
                 </div>
               ))}
             </div>

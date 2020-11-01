@@ -20,6 +20,7 @@ const Dashboard: React.FC<Props> = () => {
     accounts: [],
     transactions: [],
   });
+  const [recommend, setRecommend] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +35,12 @@ const Dashboard: React.FC<Props> = () => {
         accounts: accountRes.data,
         transactions: transactionRes.data,
       }));
+      const lastTsNum = localStorage.getItem('ts_num') || 0;
+      if (lastTsNum < transactionRes.data.length) {
+        setRecommend(true);
+      } else {
+        localStorage.setItem('ts_num', transactionRes.data.length);
+      }
     };
     fetchData();
   }, []);
@@ -48,8 +55,7 @@ const Dashboard: React.FC<Props> = () => {
 
   return (
     <Layout>
-      <h1 className="mb-80 text-40 font-heading">Dashboard</h1>
-      <FlowList data={data.flows} />
+      <FlowList data={data.flows} recommend={recommend} />
       <AccountList
         data={data.accounts}
         order={accountOrder}

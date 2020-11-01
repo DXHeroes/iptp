@@ -69,7 +69,7 @@ const Flow: React.FC<Props> = () => {
     } else if (action.tsTo) {
       value =
         'Send ' +
-        (action.tsAmount ? `${action.tsAmount}%,` : '') +
+        (action.tsAmount ? `${action.tsAmount},` : '') +
         (action.tsTo ? ` to ${action.tsTo},` : '') +
         (action.tsVS ? ` with VS number ${action.tsVS}` : '');
     }
