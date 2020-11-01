@@ -8,6 +8,14 @@ Based on the conditions that you set, the transactions in your bank accounts (i.
 
 Technology-wise speaking, we used NodeJS and NestJS for back-end services with PostgreSQL as a database. For the front-end we used ReactJS with TailwindCSS for styling. Thanks to BankID, that we used as SSO, users have all their banking information available via just one login. Unfortunately, at the moment BankID does not support accessing bank accounts (which will be possible when BankID goes into full production) so we had to integrate with ČSAS's PSD2 APIs directly that allow us to get account details, current account balance, transaction history, and option to create a new transaction.
 
+## Hackaton introduction
+
+[![iptp introduction](./docs/intro.png)](https://youtu.be/CZSTSjVVcgc)
+
 ## Under the hood (CZ)
 
-[![underr the hood](./docs/under_the_hood.png)](https://youtu.be/ZnrM3tn_2RU)
+[![under the hood](./docs/under_the_hood.png)](https://youtu.be/ZnrM3tn_2RU)
+
+## Contact
+
+Contact us! [dev@dxheroes.io](mailto:dev@dxheroes.io)
