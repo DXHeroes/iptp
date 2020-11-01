@@ -40,15 +40,6 @@ export class ActionsService {
         },
       ]);
     }
-
-    if (action.tag) {
-      const newTransaction = (await this.transactionService.findAll())
-        .sort((a, b) => this.getTime(a.createdAt) - this.getTime(b.createdAt))
-        .pop();
-      await this.transactionService.labelTransaction(account, newTransaction, [
-        action.tag,
-      ]);
-    }
   }
 
   async createAction(
