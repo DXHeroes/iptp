@@ -59,6 +59,6 @@ export class TransactionsService {
   }
 
   async list() {
-    return this.transactionRepository.find()
+    return this.transactionRepository.find();
   }
 }

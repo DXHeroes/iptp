@@ -9,8 +9,6 @@ import { fetchAccounts, fetchFlows, fetchTransactions } from '../utils/api';
 
 interface Props {}
 
-const flows: any = [];
-
 const Dashboard: React.FC<Props> = () => {
   const {
     auth: { accountOrder },

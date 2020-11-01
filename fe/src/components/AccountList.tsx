@@ -30,7 +30,7 @@ const AccountList: React.FC<Props> = ({ data, order, onChange }) => {
             <div>
               <div className="uppercase font-heading">{account.product}</div>
               <div className="text-13 text-grey">{account.name}</div>
-              <div className="text-13 text-grey font-medium">{`${account.balance.amount.value} ${account.balance.amount.currency}`}</div>
+              <div className="text-13 text-grey font-medium">{`${account.balance} ${account.currency}`}</div>
             </div>
           </li>
         ))}
