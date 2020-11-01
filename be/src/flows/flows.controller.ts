@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { InsertResult } from 'typeorm';
 import { Action } from '../actions/entity/action.entity';
 import { Flow } from './entity/flow.entity';
 import { FlowsService } from './flows.service';
@@ -32,7 +31,7 @@ export class FlowsController {
       to: string;
       actions: Action[];
     },
-  ): Promise<InsertResult> {
+  ): Promise<Flow> {
     const {
       amount,
       amountCond,

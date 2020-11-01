@@ -1,13 +1,10 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { TransactionsService } from '../transactions/transactions.service';
 import { AmountCondition } from './interface/amountCondition.enum';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as _ from 'lodash';
 import { CreateFlowParams, FlowRepository } from './repository/flow.repository';
 import { Flow } from './entity/flow.entity';
 import { ActionsService } from '../actions/actions.service';
 import { Transaction } from '../transactions/entity/transaction.entity';
-import { InsertResult } from 'typeorm';
 
 @Injectable()
 export class FlowsService implements OnApplicationBootstrap {
@@ -38,13 +35,23 @@ export class FlowsService implements OnApplicationBootstrap {
         'VS420123',
         'DEBT',
         false,
-        0,
       );
     }
   }
 
-  create(params: CreateFlowParams): Promise<InsertResult> {
-    return this.flowRepository.createFlow(params);
+  async create(params: CreateFlowParams): Promise<Flow> {
+    const flow = await this.flowRepository.createFlow(params);
+    for (const action of params.actions) {
+      await this.actionsService.createAction(
+        flow,
+        action.tsTo,
+        action.tsAmount,
+        action.tsVS,
+        action.tag,
+        action.notification,
+      );
+    }
+    return flow;
   }
 
   list(): Promise<Flow[]> {
@@ -63,34 +70,23 @@ export class FlowsService implements OnApplicationBootstrap {
 
     // FIXME: I'd never iterate in loop in real world - i'd use sql query => :shame: :shame: :shame:
     for (const f of flows) {
-      console.log(f.to);
-      console.log(transaction.tsTo);
-      console.log('passed0');
       //if (f.date && transaction.date != f.date) break;
-      console.log('passed1');
       // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll:
       if (f.to && transaction.tsTo != f.to) break;
-      console.log('passed2');
       if (
         f.amount &&
         !this.fulfillsCondition(transaction.tsAmount, f.amount, f.amountCond)
       )
         break;
-      console.log('passed3');
       if (f.category && !this.isCategory(transaction)) break;
-      console.log('passed4');
       applicableFlows.push(f);
     }
-    console.log(applicableFlows);
 
     const flowsByPriority = applicableFlows.sort(f => f.priority);
-    console.log(flowsByPriority);
 
     for (const f of flowsByPriority) {
       const actionsByPriority = f.actions.sort(a => a.priority);
-      console.log(actionsByPriority);
       for (const a of actionsByPriority) {
-        console.log('ok');
         await this.actionsService.apply(a.id);
       }
     }

@@ -62,8 +62,8 @@ export class ActionsService {
     tsVS: string,
     tag: string,
     notification: boolean,
-    priority: number,
   ): Promise<Action> {
+    const [actions, count] = await this.actionRepository.findAndCount();
     const a = new Action();
     a.flow = flow;
     a.tsTo = tsTo;
@@ -71,7 +71,7 @@ export class ActionsService {
     a.tsVS = tsVS;
     a.tag = tag;
     a.notification = notification;
-    a.priority = priority;
+    a.priority = count + 1;
     return this.actionRepository.save(a);
   }
 
