@@ -1,13 +1,10 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { TransactionsService } from '../transactions/transactions.service';
 import { AmountCondition } from './interface/amountCondition.enum';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as _ from 'lodash';
 import { CreateFlowParams, FlowRepository } from './repository/flow.repository';
 import { Flow } from './entity/flow.entity';
 import { ActionsService } from '../actions/actions.service';
 import { Transaction } from '../transactions/entity/transaction.entity';
-import { InsertResult } from 'typeorm';
 
 @Injectable()
 export class FlowsService implements OnApplicationBootstrap {
@@ -29,38 +26,52 @@ export class FlowsService implements OnApplicationBootstrap {
         date: new Date(),
         from: 'Applifting s.r.o.',
         title: 'Monthly Income Flow',
-        to: 'DX Heroes',
+        to: 'Jiří Spokojený',
       });
       await this.actionsService.createAction(
         flow,
         'Prokop Simek',
-        '10000',
-        '420123123',
+        '15',
+        'VS420123',
         'DEBT',
         false,
-        0,
       );
     }
   }
 
-  create(params: CreateFlowParams): Promise<InsertResult> {
-    return this.flowRepository.createFlow(params);
+  async create(params: CreateFlowParams): Promise<Flow> {
+    const flow = await this.flowRepository.createFlow(params);
+    for (const action of params.actions) {
+      await this.actionsService.createAction(
+        flow,
+        action.tsTo,
+        action.tsAmount,
+        action.tsVS,
+        action.tag,
+        action.notification,
+      );
+    }
+    return flow;
   }
 
   list(): Promise<Flow[]> {
     return this.flowRepository.find();
   }
 
+  getById(id: string): Promise<Flow> {
+    return this.flowRepository.findOne(id);
+  }
+
   async matchTransaction(transactionId: string): Promise<void> {
     const transaction = await this.transactionsService.findById(transactionId);
 
-    const flows = await this.flowRepository.find();
+    const flows = await this.flowRepository.find({ relations: ['actions'] });
     const applicableFlows: Flow[] = [];
 
-    // FIXME: I'd never oterate in loop in real world - iˇd use sql query => :shame: :shame: :shame:
+    // FIXME: I'd never iterate in loop in real world - i'd use sql query => :shame: :shame: :shame:
     for (const f of flows) {
-      if (f.date && transaction.date != f.date) break;
-      // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll: 
+      //if (f.date && transaction.date != f.date) break;
+      // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll:
       if (f.to && transaction.tsTo != f.to) break;
       if (
         f.amount &&
@@ -75,7 +86,6 @@ export class FlowsService implements OnApplicationBootstrap {
 
     for (const f of flowsByPriority) {
       const actionsByPriority = f.actions.sort(a => a.priority);
-
       for (const a of actionsByPriority) {
         await this.actionsService.apply(a.id);
       }

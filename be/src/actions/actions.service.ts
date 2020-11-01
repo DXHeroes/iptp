@@ -5,6 +5,7 @@ import { Transaction } from '../transactions/entity/transaction.entity';
 import { TransactionsService } from '../transactions/transactions.service';
 import { Action } from './entity/action.entity';
 import { ActionRepository } from './repository/action.repository';
+import * as uuid from 'uuid';
 
 @Injectable()
 export class ActionsService {
@@ -21,7 +22,7 @@ export class ActionsService {
 
     const latestTransaction = (await this.transactionService.findAll()).sort(
       (a: Transaction, b: Transaction) =>
-        this.getTime(a.date) - this.getTime(b.date),
+        this.getTime(a.createdAt) - this.getTime(b.createdAt),
     );
 
     let transaction: Transaction;
@@ -29,21 +30,23 @@ export class ActionsService {
       const { reducedAmount } = await this.accountsService.updateBalance(
         account,
         action.tsAmount,
-        String(latestTransaction[0].tsAmount),
+        String(latestTransaction.pop().tsAmount),
       );
-      transaction = await this.transactionService.createTransactions(account, [
-        {
-          id: null,
-          date: null,
-          fromName: 'me',
-          vs: null,
-          amount: {
-            value: String(reducedAmount),
-            currency: 'CZK',
+      transaction = (
+        await this.transactionService.createTransactions(account, [
+          {
+            id: uuid.v4(),
+            date: new Date().toLocaleString(),
+            fromName: account.name,
+            vs: `VS${uuid.v4()}`,
+            amount: {
+              value: String(reducedAmount),
+              currency: 'CZK',
+            },
+            toName: action.tsTo,
           },
-          toName: 'My Required Payment',
-        },
-      ])[0];
+        ])
+      ).pop();
     }
 
     if (action.tag)
@@ -59,8 +62,8 @@ export class ActionsService {
     tsVS: string,
     tag: string,
     notification: boolean,
-    priority: number,
   ): Promise<Action> {
+    const [actions, count] = await this.actionRepository.findAndCount();
     const a = new Action();
     a.flow = flow;
     a.tsTo = tsTo;
@@ -68,7 +71,7 @@ export class ActionsService {
     a.tsVS = tsVS;
     a.tag = tag;
     a.notification = notification;
-    a.priority = priority;
+    a.priority = count + 1;
     return this.actionRepository.save(a);
   }
 

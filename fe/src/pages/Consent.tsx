@@ -11,12 +11,13 @@ const Home: React.FC<Props> = () => (
       </nav>
     </header>
     <div className="flex-1 flex">
-      <button className="m-auto bg-blue text-white font-bold px-60 py-40 rounded-lg text-40">
+      <button className="m-auto border-4 border-black font-bold px-60 py-20 rounded-lg text-60">
         <a
           href="http://localhost:3000/api/auth/linkedin"
           className="flex items-center"
         >
-          Approve
+          Login with
+          <Logo className="ml-20 h-100" />
         </a>
       </button>
     </div>

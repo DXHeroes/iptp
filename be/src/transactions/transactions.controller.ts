@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { AccountsService } from '../accounts/accounts.service';
 import { BankService } from '../bank/bank.service';
 import { FlowsService } from '../flows/flows.service';
@@ -24,6 +24,8 @@ export class TransactionsController {
       amountCurrency: string;
       debtorIban: string;
       creditorIban: string;
+      from: string;
+      to: string;
     },
   ): Promise<void> {
     const {
@@ -33,6 +35,8 @@ export class TransactionsController {
       amountCurrency,
       debtorIban,
       creditorIban,
+      from,
+      to,
     } = dto;
     const data = await this.bankService.createPayment({
       paymentIdentification: {
@@ -50,11 +54,40 @@ export class TransactionsController {
         id: data.paymentIdentification.instructionIdentification,
         amount: { value: String(amountValue), currency: amountCurrency },
         date: String(new Date().toLocaleDateString()),
-        fromName: accounts[0].name,
-        toName: accounts[1].name,
+        fromName: from,
+        toName: to,
         vs: data.signInfo.signId,
       },
     );
     await this.flowService.matchTransaction(transaction.id);
+  }
+
+  @Get('/:accountId')
+  async listTransactions(
+    @Param('accountId') accountId: string,
+  ): Promise<
+    {
+      id: string;
+      amount: { value: number; currency: string };
+      date: Date;
+      fromName: string;
+      toName: string;
+    }[]
+  > {
+    // TODO: enable for real world
+    // return this.bankService.listTransactionsByAccountId(accountId);
+    const ts = await this.transactionService.list();
+    return ts.map(t => {
+      return {
+        id: t.id,
+        amount: {
+          value: t.tsAmount,
+          currency: 'CZK',
+        },
+        date: t.date,
+        fromName: t.tsFrom,
+        toName: t.tsTo,
+      };
+    });
   }
 }

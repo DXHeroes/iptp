@@ -11,7 +11,7 @@ import { FlowsModule } from '../flows/flows.module';
   imports: [
     TypeOrmModule.forFeature([TransactionRepository]),
     BankModule,
-    AccountsModule,
+    forwardRef(() => AccountsModule),
     forwardRef(() => FlowsModule),
   ],
   providers: [TransactionsService],
