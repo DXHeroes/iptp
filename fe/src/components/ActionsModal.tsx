@@ -23,7 +23,7 @@ enum AutocompleteTypes {
 const fromList = [
   {
     num: '01234/1234',
-    name: 'Applifting',
+    name: 'Applifting s.r.o',
   },
   {
     num: '953437/9990',

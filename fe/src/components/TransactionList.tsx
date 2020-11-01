@@ -21,7 +21,7 @@ const TransactionList: React.FC<Props> = ({ data }) => (
       {data
         .sort(
           (a: any, b: any) =>
-            new Date(b.date).getTime() - new Date(a.date).getTime()
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         )
         .map((transaction: any) => (
           <li
@@ -32,7 +32,7 @@ const TransactionList: React.FC<Props> = ({ data }) => (
               <Icon className="fill-current text-white w-20 h-20" />
             </div>
             <div className="ml-20 leading-none">
-              <div className="text-20">{transaction.toName || 'Unknown'}</div>
+              <div className="text-20">{transaction.fromName || 'Prokop'}</div>
               <div className="text-grey mt-5 text-14">
                 {moment(transaction.date).format('D MMM YYYY, HH:mm ')}
               </div>
