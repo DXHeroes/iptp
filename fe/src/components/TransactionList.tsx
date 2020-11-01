@@ -34,9 +34,9 @@ const TransactionList: React.FC<Props> = ({ data }) => (
             <Icon className="fill-current text-white w-20 h-20" />
           </div>
           <div className="ml-20 leading-none">
-            <div className="text-20">{transaction.fromName || "Unknown"}</div>
+            <div className="text-20">{transaction.fromName || 'Unknown'}</div>
             <div className="text-grey mt-5 text-14">{transaction.date}</div>
-            <div className="flex mt-10">
+            {/* <div className="flex mt-10">
               {tags.map((tag) => (
                 <Link key={tag.id} to={`/flow/${tag.id}`}>
                   <div className="text-13 font-medium text-grey bg-greylight py-5 px-10 mr-10 rounded-full">
@@ -44,7 +44,7 @@ const TransactionList: React.FC<Props> = ({ data }) => (
                   </div>
                 </Link>
               ))}
-            </div>
+            </div> */}
           </div>
           <div className="ml-auto pr-20">{`${transaction.amount.value} ${transaction.amount.currency}`}</div>
         </li>

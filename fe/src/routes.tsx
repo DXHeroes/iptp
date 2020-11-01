@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Redirect } from '@reach/router';
 import Home from './pages/Home';
+import Consent from './pages/Consent';
 import Dashboard from './pages/Dashboard';
 import CreateFlow from './pages/CreateFlow';
 import Transaction from './pages/Transaction';
@@ -47,6 +48,7 @@ export const Routes: React.FC<Props> = (props) => {
   return (
     <Router>
       <PublicRoute path="/" allowed={!logged} component={Home} />
+      <PublicRoute path="/consent" allowed={!logged} component={Consent} />
       <PublicRoute path="/auth" allowed={!logged} component={AuthRedirect} />
       <ProtectedRoute
         path="/dashboard"
