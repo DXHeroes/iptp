@@ -18,10 +18,11 @@ const FlowList: React.FC<Props> = ({ data }) => (
     <ul className="flex overflow-x-scroll">
       <li className="p-20 bg-red text-white rounded-lg w-300 h-200 mr-20 flex-shrink-0">
         <div>
-          <div className="uppercase font-bold mb-10">Doporuceno</div>
+          <div className="uppercase font-bold mb-5">Recommended</div>
           <div>
-            Zakuste servis X a strcte si to do prdele. Po tom vam mi zena
-            vykouri curaka
+            Invest online in business opportunities from 1000 CZK and get a
+            return! We believe that everyone should be able to invest in
+            UNIVERSUM.
           </div>
         </div>
       </li>
