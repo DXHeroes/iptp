@@ -5,9 +5,10 @@ import Button from './Button';
 
 interface Props {
   data: any;
+  recommend: boolean;
 }
 
-const FlowList: React.FC<Props> = ({ data }) => (
+const FlowList: React.FC<Props> = ({ data, recommend }) => (
   <div className="mb-60">
     <div className="my-10 flex items-center">
       <h2 className="text-30 font-heading">Conditional payments</h2>
@@ -16,16 +17,18 @@ const FlowList: React.FC<Props> = ({ data }) => (
       </Link>
     </div>
     <ul className="flex overflow-x-scroll">
-      <li className="p-20 bg-red text-white rounded-lg w-300 h-200 mr-20 flex-shrink-0">
-        <div>
-          <div className="uppercase font-bold mb-5">Recommended</div>
+      {recommend && (
+        <li className="p-20 bg-red text-white rounded-lg w-300 h-200 mr-20 flex-shrink-0">
           <div>
-            Invest online in business opportunities from 1000 CZK and get a
-            return! We believe that everyone should be able to invest in
-            UNIVERSUM.
+            <div className="uppercase font-bold mb-5">Recommended</div>
+            <div>
+              Invest online in business opportunities from 1000 CZK and get a
+              return! We believe that everyone should be able to invest in
+              UNIVERSUM.
+            </div>
           </div>
-        </div>
-      </li>
+        </li>
+      )}
       {data.map((flow: any) => (
         <li
           key={flow.id}

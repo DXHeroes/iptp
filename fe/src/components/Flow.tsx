@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ReactComponent as Icon } from '../assets/icons/drag.svg';
 import { Container, Draggable } from 'react-smooth-dnd';
 import ConditionModal from './ConditionModal';
