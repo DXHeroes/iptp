@@ -7,6 +7,7 @@ import { AmountCondition } from '../interface/amountCondition.enum';
 export class FlowRepository extends Repository<Flow> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async createFlow(params: CreateFlowParams) {
+    const [flow, count] = await this.findAndCount();
     const f = new Flow();
     f.amount = Number(params.amount.split(' ')[0]);
     f.amountCond = params.amountCond;
@@ -15,11 +16,13 @@ export class FlowRepository extends Repository<Flow> {
     f.from = params.from;
     f.title = params.title;
     f.to = params.to;
+    f.priority = count + 1;
     f.actions = params.actions;
     return await this.insert(f);
   }
 
   async createSingleFlow(params: CreateFlowParams): Promise<Flow> {
+    const [flow, count] = await this.findAndCount();
     const f = new Flow();
     f.amount = Number(params.amount);
     f.amountCond = params.amountCond;
@@ -28,6 +31,7 @@ export class FlowRepository extends Repository<Flow> {
     f.from = params.from;
     f.title = params.title;
     f.to = params.to;
+    f.priority = count + 1;
     return this.save(f);
   }
 }

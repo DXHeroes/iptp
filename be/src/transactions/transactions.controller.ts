@@ -24,6 +24,8 @@ export class TransactionsController {
       amountCurrency: string;
       debtorIban: string;
       creditorIban: string;
+      from: string;
+      to: string;
     },
   ): Promise<void> {
     const {
@@ -33,6 +35,8 @@ export class TransactionsController {
       amountCurrency,
       debtorIban,
       creditorIban,
+      from,
+      to,
     } = dto;
     const data = await this.bankService.createPayment({
       paymentIdentification: {
@@ -50,8 +54,8 @@ export class TransactionsController {
         id: data.paymentIdentification.instructionIdentification,
         amount: { value: String(amountValue), currency: amountCurrency },
         date: String(new Date().toLocaleDateString()),
-        fromName: accounts[0].name,
-        toName: accounts[1].name,
+        fromName: from,
+        toName: to,
         vs: data.signInfo.signId,
       },
     );
@@ -73,7 +77,6 @@ export class TransactionsController {
     // TODO: enable for real world
     // return this.bankService.listTransactionsByAccountId(accountId);
     const ts = await this.transactionService.list();
-
     return ts.map(t => {
       return {
         id: t.id,

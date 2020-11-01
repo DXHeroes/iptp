@@ -29,13 +29,13 @@ export class FlowsService implements OnApplicationBootstrap {
         date: new Date(),
         from: 'Applifting s.r.o.',
         title: 'Monthly Income Flow',
-        to: 'DX Heroes',
+        to: 'Jiří Spokojený',
       });
       await this.actionsService.createAction(
         flow,
         'Prokop Simek',
-        '10000',
-        '420123123',
+        '15',
+        'VS420123',
         'DEBT',
         false,
         0,
@@ -58,29 +58,39 @@ export class FlowsService implements OnApplicationBootstrap {
   async matchTransaction(transactionId: string): Promise<void> {
     const transaction = await this.transactionsService.findById(transactionId);
 
-    const flows = await this.flowRepository.find();
+    const flows = await this.flowRepository.find({ relations: ['actions'] });
     const applicableFlows: Flow[] = [];
 
-    // FIXME: I'd never oterate in loop in real world - iˇd use sql query => :shame: :shame: :shame:
+    // FIXME: I'd never iterate in loop in real world - i'd use sql query => :shame: :shame: :shame:
     for (const f of flows) {
-      if (f.date && transaction.date != f.date) break;
+      console.log(f.to);
+      console.log(transaction.tsTo);
+      console.log('passed0');
+      //if (f.date && transaction.date != f.date) break;
+      console.log('passed1');
       // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll:
       if (f.to && transaction.tsTo != f.to) break;
+      console.log('passed2');
       if (
         f.amount &&
         !this.fulfillsCondition(transaction.tsAmount, f.amount, f.amountCond)
       )
         break;
+      console.log('passed3');
       if (f.category && !this.isCategory(transaction)) break;
+      console.log('passed4');
       applicableFlows.push(f);
     }
+    console.log(applicableFlows);
 
     const flowsByPriority = applicableFlows.sort(f => f.priority);
+    console.log(flowsByPriority);
 
     for (const f of flowsByPriority) {
       const actionsByPriority = f.actions.sort(a => a.priority);
-
+      console.log(actionsByPriority);
       for (const a of actionsByPriority) {
+        console.log('ok');
         await this.actionsService.apply(a.id);
       }
     }
