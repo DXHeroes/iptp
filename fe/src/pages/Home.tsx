@@ -7,12 +7,12 @@ interface Props {}
 
 const Home: React.FC<Props> = () => (
   <Layout>
-    <section className="pt-100">
-      <h1 className="mb-20 text-40 font-heading leading-normal">
-        Bank transactions
-        <br /> reimagined
+    <section className="pt-100 flex flex-col">
+      <h1 className="text-center mb-20 text-40 font-heading leading-normal">
+        Manage payments
+        <br /> of tomorrow
       </h1>
-      <button className="m-auto bg-blue text-white font-bold px-20 py-10 rounded-lg">
+      <button className="mx-auto bg-blue text-white font-bold px-20 py-10 rounded-lg">
         <Link to="/consent" className="flex items-center">
           Login Bank ID
         </Link>

@@ -9,6 +9,7 @@ import { AmountCondition, FlowState } from '../interfaces/FlowState';
 import { ActionState } from '../interfaces/ActionState';
 import Button from './Button';
 import { createFlow } from '../utils/api';
+import { navigate } from '@reach/router';
 
 interface Props {}
 
@@ -91,8 +92,8 @@ const Flow: React.FC<Props> = () => {
       ...a,
       priority: index,
     }));
-    const res = await createFlow(flowState);
-    console.log(res);
+    await createFlow(flowState);
+    navigate('/dashboard');
   };
 
   return (
@@ -188,7 +189,7 @@ const Flow: React.FC<Props> = () => {
           </ul>
         </div>
         <div className="mt-20 flex justify-center" onClick={handleCreateFlow}>
-          <Button>Create flow</Button>
+          <Button>Create conditional payment</Button>
         </div>
       </div>
       {modal && (

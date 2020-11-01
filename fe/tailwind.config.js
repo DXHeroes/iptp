@@ -82,7 +82,7 @@ module.exports = {
       transparent: 'transparent',
       white: '#fff',
       grey: '#5c595f',
-      "grey-300": "#e2e8f0",
+      'grey-300': '#e2e8f0',
       greylight: '#f7f7f7',
       black: '#000',
       black2: '#100e1c',
@@ -91,6 +91,7 @@ module.exports = {
       blue: '#1483ff',
       pink: '#f3a0bd',
       green: '#24b176',
+      red: '#d62a6a',
     },
     fontSize: sizes,
     fontFamily: {

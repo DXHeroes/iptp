@@ -10,12 +10,21 @@ interface Props {
 const FlowList: React.FC<Props> = ({ data }) => (
   <div className="mb-60">
     <div className="my-10 flex items-center">
-      <h2 className="text-30 font-heading">Flows</h2>
+      <h2 className="text-30 font-heading">Conditional payments</h2>
       <Link to="/create/flow" className="ml-auto">
-        <Button>Create flow</Button>
+        <Button>Create conditional payment</Button>
       </Link>
     </div>
     <ul className="flex overflow-x-scroll">
+      <li className="p-20 bg-red text-white rounded-lg w-300 h-200 mr-20 flex-shrink-0">
+        <div>
+          <div className="uppercase font-bold mb-10">Doporuceno</div>
+          <div>
+            Zakuste servis X a strcte si to do prdele. Po tom vam mi zena
+            vykouri curaka
+          </div>
+        </div>
+      </li>
       {data.map((flow: any) => (
         <li
           key={flow.id}
@@ -23,7 +32,7 @@ const FlowList: React.FC<Props> = ({ data }) => (
         >
           <Link to={`/flow/${flow.id}`} className="text-30 font-bold">
             <Icon className="fill-current mb-20 w-30 h-30" />
-            {flow.name}
+            {flow.title}
           </Link>
         </li>
       ))}
