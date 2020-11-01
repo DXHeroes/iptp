@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ReactComponent as Icon } from '../assets/icons/drag.svg';
 import { Container, Draggable } from 'react-smooth-dnd';
 import ConditionModal from './ConditionModal';
@@ -69,7 +69,7 @@ const Flow: React.FC<Props> = () => {
     } else if (action.tsTo) {
       value =
         'Send ' +
-        (action.tsAmount ? `${action.tsAmount}%,` : '') +
+        (action.tsAmount ? `${action.tsAmount},` : '') +
         (action.tsTo ? ` to ${action.tsTo},` : '') +
         (action.tsVS ? ` with VS number ${action.tsVS}` : '');
     }

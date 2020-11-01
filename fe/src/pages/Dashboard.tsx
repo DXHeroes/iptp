@@ -35,7 +35,7 @@ const Dashboard: React.FC<Props> = () => {
         accounts: accountRes.data,
         transactions: transactionRes.data,
       }));
-      const lastTsNum = localStorage.get('ts_num');
+      const lastTsNum = localStorage.getItem('ts_num') || 0;
       if (lastTsNum < transactionRes.data.length) {
         setRecommend(true);
       } else {
