@@ -80,14 +80,13 @@ export class FlowsService implements OnApplicationBootstrap {
       applicableFlows.push(f);
     }
     const flowsByPriority = applicableFlows.sort(f => f.priority);
+
     for (const f of flowsByPriority) {
       const actionsByPriority = f.actions.sort(a => a.priority);
       for (const a of actionsByPriority) {
-        console.log(f.title, a);
         await this.actionsService.apply(a.id, transaction);
       }
     }
-
     return;
   }
 

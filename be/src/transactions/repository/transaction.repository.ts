@@ -62,16 +62,10 @@ export class TransactionRepository extends Repository<Transaction> {
     transaction: Transaction,
     tags: string[],
   ): Promise<Transaction> {
-    const t = new Transaction();
-    t.account = account;
-    t.tsAmount = 0;
-    t.currency = 'CZK';
-    t.tags = tags;
-    t.tsId = transaction.id;
-    t.tsVS = transaction.tsVS;
-    t.date = new Date(transaction.date);
-    t.tsTo = transaction.tsTo;
-    t.tsFrom = transaction.tsFrom;
-    return this.save(t);
+    const ftransaction = await this.findOne({
+      where: { accountId: account.id },
+    });
+    ftransaction.tags = tags;
+    return await this.save(ftransaction);
   }
 }

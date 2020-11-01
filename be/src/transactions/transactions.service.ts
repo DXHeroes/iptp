@@ -59,7 +59,7 @@ export class TransactionsService {
     transaction: Transaction,
     tags: string[],
   ): Promise<Transaction> {
-    return this.transactionRepository.labelTransaction(
+    return await this.transactionRepository.labelTransaction(
       account,
       transaction,
       tags,

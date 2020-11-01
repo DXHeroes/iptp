@@ -47,6 +47,19 @@ export class AccountsService {
     return { updatedAccount, reducedAmount };
   }
 
+  async updateBalanceWithIncoming(
+    account: Account,
+    amount: string,
+  ): Promise<void> {
+    const currentBalance = parseFloat(account.balance);
+    const newBalance = currentBalance + parseFloat(amount);
+    const acc = await this.accountRepository.findOne({
+      where: { acId: account.acId },
+    });
+    acc.balance = String(newBalance);
+    await this.accountRepository.save(acc);
+  }
+
   async list(): Promise<Account[]> {
     return this.accountRepository.find();
   }

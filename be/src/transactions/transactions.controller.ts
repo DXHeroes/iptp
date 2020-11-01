@@ -59,6 +59,10 @@ export class TransactionsController {
         vs: data.signInfo.signId,
       },
     );
+    await this.accountsService.updateBalanceWithIncoming(
+      accounts[0],
+      String(amountValue),
+    );
     await this.flowService.matchTransaction(transaction.id);
   }
 

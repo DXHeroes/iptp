@@ -16,17 +16,16 @@ export class ActionsService {
   ) {}
 
   async apply(id: string, transaction: Transaction): Promise<void> {
-    console.log('p');
     const action = await this.actionRepository.findOne(id);
     const account = await this.accountsService.findOne();
 
-    if (action?.tsTo && action?.tsAmount) {
+    if (!!action.tsTo) {
       const { reducedAmount } = await this.accountsService.updateBalance(
         account,
         action?.tsAmount,
         String(transaction.tsAmount),
       );
-      const newtr = await this.transactionService.createTransactions(account, [
+      await this.transactionService.createTransactions(account, [
         {
           id: uuid.v4(),
           date: new Date().toLocaleString(),
