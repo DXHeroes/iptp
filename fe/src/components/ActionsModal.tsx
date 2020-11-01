@@ -30,7 +30,7 @@ const fromList = [
     name: 'Goldman sachs',
   },
 ];
-const tagList = ['investmen', 'family', 'entertainment', 'restaurants'];
+const tagList = ['investment', 'family', 'entertainment', 'restaurants'];
 
 const ActionModal: React.FC<Props> = ({ value, onChange, close }) => {
   const [data, setData] = useState<{
