@@ -51,6 +51,10 @@ export class FlowsService implements OnApplicationBootstrap {
     return this.flowRepository.find();
   }
 
+  getById(id: string): Promise<Flow> {
+    return this.flowRepository.findOne(id);
+  }
+
   async matchTransaction(transactionId: string): Promise<void> {
     const transaction = await this.transactionsService.findById(transactionId);
 
@@ -60,7 +64,7 @@ export class FlowsService implements OnApplicationBootstrap {
     // FIXME: I'd never oterate in loop in real world - iˇd use sql query => :shame: :shame: :shame:
     for (const f of flows) {
       if (f.date && transaction.date != f.date) break;
-      // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll: 
+      // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll:
       if (f.to && transaction.tsTo != f.to) break;
       if (
         f.amount &&
