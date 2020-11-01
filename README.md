@@ -15,3 +15,7 @@ Technology-wise speaking, we used NodeJS and NestJS for back-end services with P
 ## Under the hood (CZ)
 
 [![under the hood](./docs/under_the_hood.png)](https://youtu.be/ZnrM3tn_2RU)
+
+## Contact
+
+Contact us! [dev@dxheroes.io](mailto:dev@dxheroes.io)
