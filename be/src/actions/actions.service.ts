@@ -15,47 +15,36 @@ export class ActionsService {
     private readonly accountsService: AccountsService,
   ) {}
 
-  async apply(id: string): Promise<void> {
+  async apply(id: string, transaction: Transaction): Promise<void> {
     const action = await this.actionRepository.findOne(id);
     const account = await this.accountsService.findOne();
 
-    const latestTransaction = (await this.transactionService.findAll())
-      .sort(
-        (a: Transaction, b: Transaction) =>
-          this.getTime(a.createdAt) - this.getTime(b.createdAt),
-      )
-      .pop();
-
-    let transaction: Transaction;
     if (action?.tsTo !== '' && action?.tsAmount !== '') {
       const { reducedAmount } = await this.accountsService.updateBalance(
         account,
         action?.tsAmount,
-        String(latestTransaction.tsAmount),
+        String(transaction.tsAmount),
       );
-      transaction = (
-        await this.transactionService.createTransactions(account, [
-          {
-            id: uuid.v4(),
-            date: new Date().toLocaleString(),
-            fromName: account.name,
-            vs: `VS${uuid.v4()}`,
-            amount: {
-              value: String(reducedAmount),
-              currency: 'CZK',
-            },
-            toName: action.tsTo,
+
+      await this.transactionService.createTransactions(account, [
+        {
+          id: uuid.v4(),
+          date: new Date().toLocaleString(),
+          fromName: account.name,
+          vs: `VS${uuid.v4()}`,
+          amount: {
+            value: String(reducedAmount),
+            currency: 'CZK',
           },
-        ])
-      ).pop();
+          toName: action.tsTo,
+        },
+      ]);
     }
 
     if (action.tag) {
-      await this.transactionService.labelTransaction(
-        account,
-        latestTransaction,
-        [action.tag],
-      );
+      await this.transactionService.labelTransaction(account, transaction, [
+        action.tag,
+      ]);
     }
   }
 

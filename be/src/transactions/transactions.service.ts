@@ -32,6 +32,10 @@ export class TransactionsService {
     return this.transactionRepository.find();
   }
 
+  async findAcc(id: string): Promise<Transaction[]> {
+    return this.transactionRepository.find({ where: { accountId: id } });
+  }
+
   async createSingleTransaction(
     account: Account,
     transaction: {
