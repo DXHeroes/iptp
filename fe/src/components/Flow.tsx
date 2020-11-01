@@ -91,6 +91,7 @@ const Flow: React.FC<Props> = () => {
     flowState.actions = flowState.actions?.map((a, index) => ({
       ...a,
       priority: index,
+      tsAmount: a.tsAmount.replace('%', ''),
     }));
     await createFlow(flowState);
     navigate('/dashboard');
