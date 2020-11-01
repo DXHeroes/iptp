@@ -11,7 +11,6 @@ interface Props {
 
 enum ActionsTypes {
   TRANSACTION = 'transaction',
-  CREATE_TAG = 'tag',
   ENABLE_NOTIFICATION = 'notification',
 }
 
@@ -177,38 +176,36 @@ const ActionModal: React.FC<Props> = ({ value, onChange, close }) => {
             onChange={handleInputVS}
             className="bg-greylight p-20 rounded-lg w-full mt-20"
           />
-        </div>
-      )}
-      {data.action === ActionsTypes.CREATE_TAG && (
-        <div className="relative">
-          <input
-            required
-            type="text"
-            placeholder="Create tag..."
-            onFocus={() => setAutocomplete(AutocompleteTypes.TAG)}
-            value={data.value.tag}
-            onChange={handleInputTag}
-            className="bg-greylight p-20 rounded-lg w-full mt-20"
-          />
-          {autocomplete === AutocompleteTypes.TAG && (
-            <div className="rounded-md shadow-lg bg-white w-full absolute z-20">
-              {tagList.map((a) => (
-                <div
-                  key={a}
-                  className="p-20"
-                  onClick={() => {
-                    setData((state) => ({
-                      ...state,
-                      value: { ...state.value, tag: a },
-                    }));
-                    setAutocomplete(null);
-                  }}
-                >
-                  {a}
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="relative">
+            <input
+              required
+              type="text"
+              placeholder="Create tag..."
+              onFocus={() => setAutocomplete(AutocompleteTypes.TAG)}
+              value={data.value.tag}
+              onChange={handleInputTag}
+              className="bg-greylight p-20 rounded-lg w-full mt-20"
+            />
+            {autocomplete === AutocompleteTypes.TAG && (
+              <div className="rounded-md shadow-lg bg-white w-full absolute z-20">
+                {tagList.map((a) => (
+                  <div
+                    key={a}
+                    className="p-20"
+                    onClick={() => {
+                      setData((state) => ({
+                        ...state,
+                        value: { ...state.value, tag: a },
+                      }));
+                      setAutocomplete(null);
+                    }}
+                  >
+                    {a}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
       {data.action === ActionsTypes.ENABLE_NOTIFICATION && (

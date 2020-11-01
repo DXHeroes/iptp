@@ -13,6 +13,7 @@ export class TransactionRepository extends Repository<Transaction> {
       fromName: string;
       toName?: string;
       vs: string;
+      tags?: string[];
     }[],
   ): Promise<Transaction[]> {
     const newTransactions: Transaction[] = [];
@@ -21,7 +22,7 @@ export class TransactionRepository extends Repository<Transaction> {
       t.account = account;
       t.tsAmount = parseFloat(transaction.amount.value);
       t.currency = transaction.amount.currency;
-      t.tags = [];
+      t.tags = transaction.tags;
       t.tsId = transaction.id;
       t.tsVS = transaction.vs;
       t.date = new Date(transaction.date);

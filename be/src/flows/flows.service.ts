@@ -67,7 +67,6 @@ export class FlowsService implements OnApplicationBootstrap {
     const flows = await this.flowRepository.find({ relations: ['actions'] });
     const applicableFlows: Flow[] = [];
     // FIXME: I'd never iterate in loop in real world - i'd use sql query => :shame: :shame: :shame:
-    console.log(flows);
     for (const f of flows) {
       //if (f.date && transaction.date != f.date) break;
       if (f.from && transaction.tsFrom !== f.from) continue; // TODO: :troll:
@@ -81,10 +80,10 @@ export class FlowsService implements OnApplicationBootstrap {
       applicableFlows.push(f);
     }
     const flowsByPriority = applicableFlows.sort(f => f.priority);
-    console.log(flowsByPriority);
     for (const f of flowsByPriority) {
       const actionsByPriority = f.actions.sort(a => a.priority);
       for (const a of actionsByPriority) {
+        console.log(f.title, a);
         await this.actionsService.apply(a.id, transaction);
       }
     }

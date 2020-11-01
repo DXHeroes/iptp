@@ -16,6 +16,7 @@ export class ActionsService {
   ) {}
 
   async apply(id: string, transaction: Transaction): Promise<void> {
+    console.log('p');
     const action = await this.actionRepository.findOne(id);
     const account = await this.accountsService.findOne();
 
@@ -25,8 +26,6 @@ export class ActionsService {
         action?.tsAmount,
         String(transaction.tsAmount),
       );
-      console.log('account');
-      console.log(account);
       const newtr = await this.transactionService.createTransactions(account, [
         {
           id: uuid.v4(),
@@ -38,9 +37,9 @@ export class ActionsService {
             currency: 'CZK',
           },
           toName: action.tsTo,
+          tags: [action.tag],
         },
       ]);
-      console.log(newtr);
     }
 
     if (action.tag) {

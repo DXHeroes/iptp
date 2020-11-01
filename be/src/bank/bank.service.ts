@@ -129,6 +129,7 @@ export class BankService {
         date: t.valueDate.date,
         fromName: t.entryDetails.transactionDetails.relatedParties.debtor?.name,
         toName: t.entryDetails.transactionDetails.relatedParties.creditor?.name,
+        tags: [],
         vs: t.entryDetails.transactionDetails.remittanceInformation?.structured?.creditorReferenceInformation?.reference
           ?.find(r => r.match(/VS:/))
           ?.replace('VS:', ''),

@@ -16,6 +16,7 @@ export class TransactionsService {
       fromName: string;
       toName: string;
       vs: string;
+      tags?: string[];
     }[],
   ): Promise<Transaction[]> {
     return await this.transactionRepository.createTransactions(
