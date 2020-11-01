@@ -72,6 +72,7 @@ export class TransactionsController {
       date: Date;
       fromName: string;
       toName: string;
+      createdAt: Date;
     }[]
   > {
     // TODO: enable for real world
@@ -87,6 +88,7 @@ export class TransactionsController {
         date: t.date,
         fromName: t.tsFrom,
         toName: t.tsTo,
+        createdAt: t.createdAt,
       };
     });
   }

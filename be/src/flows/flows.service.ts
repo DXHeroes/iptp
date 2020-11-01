@@ -21,7 +21,7 @@ export class FlowsService implements OnApplicationBootstrap {
     if (!existingFlow) {
       const flow = await this.flowRepository.createSingleFlow({
         amount: '15000',
-        amountCond: AmountCondition.MORE_THAN,
+        amountCond: AmountCondition.EQUAL,
         category: 'INCOME',
         date: new Date(),
         from: 'Applifting s.r.o.',
@@ -71,12 +71,12 @@ export class FlowsService implements OnApplicationBootstrap {
       //if (f.date && transaction.date != f.date) break;
       // if (f.from && transaction.tsFrom != f.from) break; // TODO: :troll:
       if (f.to && transaction.tsTo != f.to) break;
-      if (
-        f.amount &&
-        !this.fulfillsCondition(transaction.tsAmount, f.amount, f.amountCond)
-      )
-        break;
-      if (f.category && !this.isCategory(transaction)) break;
+      // if (
+      //   f.amount &&
+      //   !this.fulfillsCondition(transaction.tsAmount, f.amount, f.amountCond)
+      // )
+      //   break;
+      // if (f.category && !this.isCategory(transaction)) break;
       applicableFlows.push(f);
     }
     const flowsByPriority = applicableFlows.sort(f => f.priority);
