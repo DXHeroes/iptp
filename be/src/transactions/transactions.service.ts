@@ -18,7 +18,10 @@ export class TransactionsService {
       vs: string;
     }[],
   ): Promise<Transaction[]> {
-    return this.transactionRepository.createTransactions(account, transactions);
+    return await this.transactionRepository.createTransactions(
+      account,
+      transactions,
+    );
   }
 
   findById(id: string): Promise<Transaction> {
@@ -58,7 +61,7 @@ export class TransactionsService {
     );
   }
 
-  async list() {
+  async list(): Promise<Transaction[]> {
     return this.transactionRepository.find();
   }
 }

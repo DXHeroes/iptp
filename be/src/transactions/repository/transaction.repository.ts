@@ -51,15 +51,15 @@ export class TransactionRepository extends Repository<Transaction> {
     t.tsId = transaction.id;
     t.tsVS = transaction.vs;
     t.date = new Date(transaction.date);
-    t.tsTo = transaction.fromName;
-    t.tsFrom = transaction.toName;
+    t.tsTo = transaction.toName;
+    t.tsFrom = transaction.fromName;
     return this.save(t);
   }
 
   async labelTransaction(
     account: Account,
     transaction: Transaction,
-    tags: string[]
+    tags: string[],
   ): Promise<Transaction> {
     const t = new Transaction();
     t.account = account;
