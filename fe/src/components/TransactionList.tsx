@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from '@reach/router';
+import moment from 'moment';
 import { ReactComponent as Icon } from '../assets/icons/payment.svg';
 
 interface Props {
@@ -40,7 +41,9 @@ const TransactionList: React.FC<Props> = ({ data }) => (
             </div>
             <div className="ml-20 leading-none">
               <div className="text-20">{transaction.toName || 'Unknown'}</div>
-              <div className="text-grey mt-5 text-14">{transaction.date}</div>
+              <div className="text-grey mt-5 text-14">
+                {moment(transaction.date).format('D MMM YYYY, HH:mm ')}
+              </div>
               {/* <div className="flex mt-10">
               {tags.map((tag) => (
                 <Link key={tag.id} to={`/flow/${tag.id}`}>
