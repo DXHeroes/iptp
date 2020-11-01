@@ -63,8 +63,8 @@ export class TransactionRepository extends Repository<Transaction> {
   ): Promise<Transaction> {
     const t = new Transaction();
     t.account = account;
-    t.tsAmount = Number(transaction.tsAmount);
-    t.currency = transaction.currency;
+    t.tsAmount = 0;
+    t.currency = 'CZK';
     t.tags = tags;
     t.tsId = transaction.id;
     t.tsVS = transaction.tsVS;

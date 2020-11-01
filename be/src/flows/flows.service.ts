@@ -26,7 +26,7 @@ export class FlowsService implements OnApplicationBootstrap {
         date: new Date(),
         from: 'Applifting s.r.o.',
         title: 'Monthly Income Flow',
-        to: 'Jiří Spokojený',
+        to: '953437/999',
       });
       await this.actionsService.createAction(
         flow,
@@ -64,10 +64,8 @@ export class FlowsService implements OnApplicationBootstrap {
 
   async matchTransaction(transactionId: string): Promise<void> {
     const transaction = await this.transactionsService.findById(transactionId);
-
     const flows = await this.flowRepository.find({ relations: ['actions'] });
     const applicableFlows: Flow[] = [];
-
     // FIXME: I'd never iterate in loop in real world - i'd use sql query => :shame: :shame: :shame:
     for (const f of flows) {
       //if (f.date && transaction.date != f.date) break;
@@ -81,7 +79,6 @@ export class FlowsService implements OnApplicationBootstrap {
       if (f.category && !this.isCategory(transaction)) break;
       applicableFlows.push(f);
     }
-
     const flowsByPriority = applicableFlows.sort(f => f.priority);
 
     for (const f of flowsByPriority) {

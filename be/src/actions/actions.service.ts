@@ -17,20 +17,21 @@ export class ActionsService {
 
   async apply(id: string): Promise<void> {
     const action = await this.actionRepository.findOne(id);
-
     const account = await this.accountsService.findOne();
 
-    const latestTransaction = (await this.transactionService.findAll()).sort(
-      (a: Transaction, b: Transaction) =>
-        this.getTime(a.createdAt) - this.getTime(b.createdAt),
-    );
+    const latestTransaction = (await this.transactionService.findAll())
+      .sort(
+        (a: Transaction, b: Transaction) =>
+          this.getTime(a.createdAt) - this.getTime(b.createdAt),
+      )
+      .pop();
 
     let transaction: Transaction;
-    if (action.tsTo) {
+    if (action?.tsTo !== '' && action?.tsAmount !== '') {
       const { reducedAmount } = await this.accountsService.updateBalance(
         account,
-        action.tsAmount,
-        String(latestTransaction.pop().tsAmount),
+        action?.tsAmount,
+        String(latestTransaction.tsAmount),
       );
       transaction = (
         await this.transactionService.createTransactions(account, [
@@ -49,10 +50,13 @@ export class ActionsService {
       ).pop();
     }
 
-    if (action.tag)
-      this.transactionService.labelTransaction(account, transaction, [
-        action.tag,
-      ]);
+    if (action.tag) {
+      await this.transactionService.labelTransaction(
+        account,
+        latestTransaction,
+        [action.tag],
+      );
+    }
   }
 
   async createAction(
