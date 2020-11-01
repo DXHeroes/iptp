@@ -23,7 +23,7 @@ const FlowList: React.FC<Props> = ({ data }) => (
         >
           <Link to={`/flow/${flow.id}`} className="text-30 font-bold">
             <Icon className="fill-current mb-20 w-30 h-30" />
-            {flow.name}
+            {flow.title}
           </Link>
         </li>
       ))}

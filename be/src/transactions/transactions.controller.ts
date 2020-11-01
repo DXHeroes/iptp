@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param } from '@nestjs/common';
 import { AccountsService } from '../accounts/accounts.service';
 import { BankService } from '../bank/bank.service';
 import { FlowsService } from '../flows/flows.service';
@@ -56,5 +56,35 @@ export class TransactionsController {
       },
     );
     await this.flowService.matchTransaction(transaction.id);
+  }
+
+  @Get('/:accountId')
+  async listTransactions(
+    @Param('accountId') accountId: string,
+  ): Promise<
+    {
+      id: string;
+      amount: { value: number; currency: string };
+      date: Date;
+      fromName: string;
+      toName: string;
+    }[]
+  > {
+    // TODO: enable for real world
+    // return this.bankService.listTransactionsByAccountId(accountId);
+    const ts = await this.transactionService.list();
+
+    return ts.map(t => {
+      return {
+        id: t.id,
+        amount: {
+          value: t.tsAmount,
+          currency: 'CZK',
+        },
+        date: t.date,
+        fromName: t.tsFrom,
+        toName: t.tsTo,
+      };
+    });
   }
 }

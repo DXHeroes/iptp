@@ -47,7 +47,7 @@ export class AccountsService {
     return { updatedAccount, reducedAmount };
   }
 
-  async list() {
-    return this.accountRepository.find()
+  async list(): Promise<Account[]> {
+    return this.accountRepository.find();
   }
 }

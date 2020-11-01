@@ -8,7 +8,7 @@ export class FlowRepository extends Repository<Flow> {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async createFlow(params: CreateFlowParams) {
     const f = new Flow();
-    f.amount = Number(params.amount);
+    f.amount = Number(params.amount.split(' ')[0]);
     f.amountCond = params.amountCond;
     f.category = params.category;
     f.date = params.date ? params.date : new Date();
