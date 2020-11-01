@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import CreateFlow from './pages/CreateFlow';
 import Transaction from './pages/Transaction';
 import AuthRedirect from './pages/AuthRedirect';
+import Flow from './pages/Flow';
 
 type RouterProps = {
   component: React.FC;
@@ -55,7 +56,7 @@ export const Routes: React.FC<Props> = (props) => {
         allowed={logged}
         component={Dashboard}
       />
-      <ProtectedRoute path="/flow" allowed={logged} component={CreateFlow} />
+      <ProtectedRoute path="/flow/:id" allowed={logged} component={Flow} />
       <ProtectedRoute
         path="/create/flow"
         allowed={logged}

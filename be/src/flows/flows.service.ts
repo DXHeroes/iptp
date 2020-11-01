@@ -59,7 +59,7 @@ export class FlowsService implements OnApplicationBootstrap {
   }
 
   getById(id: string): Promise<Flow> {
-    return this.flowRepository.findOne(id);
+    return this.flowRepository.findOne(id, { relations: ['actions'] });
   }
 
   async matchTransaction(transactionId: string): Promise<void> {

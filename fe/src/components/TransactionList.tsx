@@ -41,7 +41,9 @@ const TransactionList: React.FC<Props> = ({ data }) => (
             </div>
             <div className="ml-20 leading-none">
               <div className="text-20">
-                {getTransactionName(transaction.fromName)}
+                {`${getTransactionName(
+                  transaction.fromName
+                )} to ${getTransactionName(transaction.toName)}`}
               </div>
               <div className="text-grey mt-5 text-14">
                 {moment(transaction.date).format('D MMM YYYY, HH:mm ')}
