@@ -17,8 +17,7 @@ export class FlowRepository extends Repository<Flow> {
     f.title = params.title;
     f.to = params.to;
     f.priority = count + 1;
-    f.actions = params.actions;
-    return await this.insert(f);
+    return await this.save(f);
   }
 
   async createSingleFlow(params: CreateFlowParams): Promise<Flow> {
