@@ -12,10 +12,9 @@ const Home: React.FC<Props> = () => (
         Bank transactions
         <br /> reimagined
       </h1>
-      <button className="m-auto border-4 border-black font-bold px-20 py-5 rounded-lg">
+      <button className="m-auto bg-blue text-white font-bold px-20 py-10 rounded-lg">
         <Link to="/consent" className="flex items-center">
-          Login
-          <Logo className="ml-20 h-60" />
+          Login Bank ID
         </Link>
       </button>
     </section>

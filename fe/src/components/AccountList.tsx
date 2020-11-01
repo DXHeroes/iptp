@@ -7,7 +7,7 @@ interface Props {
 }
 
 const bankLogos = [
-  'https://startit.csob.cz/wp-content/themes/startit/img/logo-csob.svg',
+  'https://www.banky.cz/Up/1/tn-w500-539px-ceska_sporitelnasvg1.png',
   'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Komer%C4%8Dn%C3%AD_banka_logo.svg/1280px-Komer%C4%8Dn%C3%AD_banka_logo.svg.png',
 ];
 
