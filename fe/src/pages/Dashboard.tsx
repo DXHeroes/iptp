@@ -55,7 +55,6 @@ const Dashboard: React.FC<Props> = () => {
 
   return (
     <Layout>
-      <h1 className="mb-80 text-40 font-heading">Dashboard</h1>
       <FlowList data={data.flows} recommend={recommend} />
       <AccountList
         data={data.accounts}
