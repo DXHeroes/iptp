@@ -608,6 +608,13 @@
     fs-extra "9.0.1"
     pluralize "8.0.0"
 
+"@nestjs/serve-static@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/serve-static/-/serve-static-2.1.3.tgz#bdcb6d3463d193153b334212facc24a9767046e9"
+  integrity sha512-9xyysggaOdfbABWqhty+hAkauDWv/Q8YKHm4OMXdQbQei5tquFuTjiSx8IFDOZeSOKlA9fjBq/2MXCJRSo23SQ==
+  dependencies:
+    path-to-regexp "0.1.7"
+
 "@nestjs/testing@^7.0.0":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-7.4.4.tgz#7a64b22e043b0f9db993c1c22467d20d3331f380"
@@ -3568,13 +3575,6 @@ http-signature@~1.2.0:
     assert-plus "^1.0.0"
     jsprim "^1.2.2"
     sshpk "^1.7.0"
-
-https-agent@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/https-agent/-/https-agent-1.0.0.tgz#895c61adafee57f3893562656fb2ad483786043e"
-  integrity sha1-iVxhra/uV/OJNWJlb7KtSDeGBD4=
-  dependencies:
-    tunnel "^0.0.3"
 
 https-browserify@^1.0.0:
   version "1.0.0"
@@ -7137,11 +7137,6 @@ tunnel-agent@^0.6.0:
   integrity sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=
   dependencies:
     safe-buffer "^5.0.1"
-
-tunnel@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/tunnel/-/tunnel-0.0.3.tgz#e8f988115ca7be9d076c7a1fae4788be708f0cf1"
-  integrity sha1-6PmIEVynvp0HbHofrkeIvnCPDPE=
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"

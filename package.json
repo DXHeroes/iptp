@@ -1,9 +1,15 @@
 {
-  "dependencies": {
-    "assert-never": "^1.2.1",
-    "lodash": "^4.17.20"
+  "name": "iptp",
+  "version": "0.1.1",
+  "author": "DX Heroes",
+  "license": "MIT",
+  "scripts": {
+    "be:install": "cd ./be && yarn install --prod=false && yarn build",
+    "fe:install": "cd ./fe && yarn install --prod=false && yarn build",
+    "install": "yarn be:install && yarn fe:install",
+    "start": "cd ./be && yarn start:prod"
   },
-  "devDependencies": {
-    "@types/lodash": "^4.14.164"
+  "engines": {
+    "node": ">=12.18.1"
   }
 }
