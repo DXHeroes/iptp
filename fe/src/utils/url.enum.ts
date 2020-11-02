@@ -7,8 +7,8 @@ export enum UrlEnums {
 function getServerModeApiUrl(serverMode: string): any {
   switch (serverMode) {
     case 'development':
-      return `http://localhost:${process.env.PORT}/api`;
+      return `http://localhost:${process.env.REACT_APP_PORT}/api`;
     case 'production':
-      return `${process.env.BE_BASE_URL}/api`;
+      return `${process.env.REACT_APP_BE_BASE_URL}/api`;
   }
 }
