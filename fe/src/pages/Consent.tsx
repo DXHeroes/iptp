@@ -1,5 +1,6 @@
 import React from 'react';
 import { ReactComponent as Logo } from '../assets/icons/bankID.svg';
+import { UrlEnums } from '../utils/url.enum';
 
 interface Props {}
 
@@ -13,7 +14,7 @@ const Home: React.FC<Props> = () => (
     <div className="flex-1 flex">
       <button className="m-auto border-4 border-black font-bold px-60 py-20 rounded-lg text-60">
         <a
-          href="http://localhost:3000/api/auth/linkedin"
+          href={`${UrlEnums.API_URL}/auth/linkedin`}
           className="flex items-center"
         >
           Login with
